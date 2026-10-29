@@ -1,0 +1,863 @@
+/* ============================================================
+   EL TERRITORIO COMO ESCENARIO DE ARTICULACIÓN
+   Hoja de estilos principal
+   ------------------------------------------------------------
+   Organizada por secciones para facilitar su lectura y edición:
+   1.  Variables de color y base
+   2.  Barra superior y navegación
+   3.  Estructura general (pantallas, contenido)
+   4.  Pantalla de inicio
+   5.  Tarjetas, guías y personajes
+   6.  Paradas del recorrido (escenas, hotspots, historias)
+   7.  Dimensiones del territorio
+   8.  Articulación (actores, conexiones, ejercicio)
+   9.  Ventanas emergentes (modales / overlays)
+   10. Responsive (pantallas pequeñas)
+   ============================================================ */
+
+/* ---------- 1. Variables de color y base ---------- */
+:root {
+  --ink: #183331;
+  --cream: #fff8e9;
+  --clay: #b9573c;
+  --leaf: #3f7850;
+  --water: #3f8eab;
+  --sun: #eeae3c;
+  --plum: #74415e;
+  --paper: #fffdf7;
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+
+body {
+  margin: 0;
+  width: 100%;
+  font-family: "Alegreya Sans", sans-serif;
+  color: var(--ink);
+  background: var(--cream);
+}
+
+button { font: inherit; }
+button:focus-visible { outline: 4px solid #f3c45c; outline-offset: 3px; }
+
+.app-shell {
+  width: 100%;
+  min-height: calc(100 * min(var(--vh, 1vh), 1vh));
+  overflow: hidden;
+  position: relative;
+}
+
+/* Fondo de territorio fijo */
+.terrain-bg {
+  position: fixed;
+  inset: 0;
+  z-index: -3;
+  overflow: hidden;
+  background: linear-gradient(180deg, #b8dfe0 0%, #dce8c7 45%, #ead3a2 100%);
+  isolation: isolate;
+}
+.territory-background-image {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: .42;
+  z-index: -1;
+  mix-blend-mode: multiply;
+}
+
+/* ---------- 2. Barra superior y navegación ---------- */
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  background: rgba(255, 253, 247, .93);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(24, 51, 49, .14);
+}
+.topbar-inner {
+  width: 100%;
+  max-width: 1180px;
+  margin: auto;
+  padding: 14px 24px 12px;
+}
+.brand-title { font-family: Fraunces, serif; line-height: 1.05; }
+
+.route-nav {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.route-btn {
+  border: 1px solid #9fb7a1;
+  border-radius: 999px;
+  background: #fffdf7;
+  color: #35524b;
+  padding: 7px 13px;
+  font-size: .94rem;
+  font-weight: 700;
+  transition: .2s;
+}
+.route-btn:hover,
+.route-btn.active {
+  background: #315f4a;
+  color: #fff;
+  border-color: #315f4a;
+}
+.route-btn.locked { opacity: .48; cursor: not-allowed; }
+
+.progress-track {
+  height: 8px;
+  background: #dce5d7;
+  border-radius: 999px;
+  margin-top: 11px;
+  overflow: hidden;
+}
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #3f7850, #eeae3c, #b9573c);
+  width: 0;
+  transition: width .5s ease;
+}
+
+/* ---------- 3. Estructura general ---------- */
+.main-content {
+  width: 100%;
+  max-width: 1180px;
+  margin: auto;
+  padding: 28px 24px 58px;
+}
+.screen { display: none; animation: rise .45s ease both; }
+.screen.active { display: block; }
+
+@keyframes rise {
+  from { opacity: 0; transform: translateY(13px); }
+  to   { opacity: 1; transform: none; }
+}
+
+/* ---------- 4. Pantalla de inicio ---------- */
+.welcome-grid {
+  display: grid;
+  grid-template-columns: 1.25fr .75fr;
+  gap: 24px;
+  align-items: start;
+}
+.paper {
+  background: rgba(255, 253, 247, .94);
+  border: 1px solid rgba(24, 51, 49, .15);
+  box-shadow: 0 18px 42px rgba(38, 69, 54, .16);
+  border-radius: 24px;
+}
+.hero-card { padding: clamp(24px, 5vw, 54px); min-height: 420px; }
+
+.eyebrow {
+  font-size: .88rem;
+  letter-spacing: .11em;
+  text-transform: uppercase;
+  font-weight: 800;
+  color: #9c4837;
+}
+.page-h1,
+.section-title { font-family: Fraunces, serif; }
+.page-h1 {
+  font-size: clamp(2.5rem, 6vw, 5.4rem);
+  line-height: .96;
+  max-width: 770px;
+}
+.subtitle {
+  font-size: clamp(1.25rem, 2.2vw, 1.7rem);
+  color: #42655a;
+  font-weight: 600;
+  max-width: 650px;
+  margin-top: 14px;
+}
+.purpose {
+  background: #edf4df;
+  border-left: 7px solid #5c8a50;
+  padding: 16px 18px;
+  border-radius: 13px;
+  margin: 24px 0;
+}
+.purpose strong { color: #386341; }
+
+/* Botones */
+.primary-btn,
+.secondary-btn,
+.audio-btn {
+  border: 0;
+  border-radius: 14px;
+  padding: 12px 18px;
+  font-weight: 800;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  transition: .2s;
+}
+.primary-btn { background: #b9573c; color: #fff; box-shadow: 0 5px 0 #82351f; }
+.primary-btn:hover { transform: translateY(-2px); box-shadow: 0 7px 0 #82351f; }
+.secondary-btn { background: #e8f0df; color: #21483c; }
+.secondary-btn:hover { background: #d9e5ce; }
+.audio-btn { padding: 8px 11px; border: 1px solid #a8c3b1; background: #f5f8ec; color: #275a4b; }
+
+/* ---------- 5. Guías y personajes ---------- */
+.guide-stack { display: grid; gap: 16px; }
+.guide { padding: 18px; position: relative; overflow: hidden; }
+.guide.gea { border-top: 7px solid #4f8754; }
+.guide.mapetto { border-top: 7px solid #3f8eab; }
+.guide-icon {
+  width: 58px;
+  height: 58px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  float: left;
+  margin: 0 14px 5px 0;
+  color: #fff;
+}
+.gea .guide-icon { background: #4f8754; }
+.mapetto .guide-icon {
+  background: #3f8eab;
+  border-radius: 50% 50% 50% 0;
+  transform: rotate(-45deg);
+}
+.mapetto .guide-icon i { transform: rotate(45deg); }
+.guide h2 { font-family: Fraunces, serif; font-size: 1.45rem; }
+.guide p { font-size: 1.08rem; line-height: 1.3; }
+
+/* Hebras temáticas (etiquetas de colores) */
+.thread-row { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 24px; }
+.thread { padding: 7px 12px; border-radius: 999px; color: #fff; font-weight: 800; font-size: .9rem; }
+.social        { background: #bd5a45; }
+.cultural      { background: #74415e; }
+.economic      { background: #c68134; }
+.environmental { background: #3f7850; }
+.political     { background: #3f8eab; }
+
+/* Lista de paradas (en el inicio) */
+.stop-list { display: grid; gap: 10px; margin-top: 20px; }
+.stop-item {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  padding: 11px;
+  border-radius: 14px;
+  background: #f4f0df;
+}
+.number {
+  flex: 0 0 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: #315f4a;
+  color: #fff;
+  font-weight: 800;
+}
+.stop-item strong { font-size: 1.15rem; }
+.stop-item span { display: block; color: #49665f; }
+
+/* ---------- 6. Paradas del recorrido ---------- */
+.stop-head {
+  display: flex;
+  gap: 17px;
+  align-items: start;
+  justify-content: space-between;
+  margin-bottom: 22px;
+}
+.section-title { font-size: clamp(2rem, 4vw, 3.4rem); line-height: 1; }
+.question {
+  font-size: 1.3rem;
+  max-width: 800px;
+  color: #355e50;
+  font-weight: 600;
+  margin-top: 10px;
+}
+
+/* Escena ilustrada (collage de fotos) */
+.scene {
+  position: relative;
+  min-height: 350px;
+  padding: 22px;
+  overflow: hidden;
+  border-radius: 24px;
+  background-color: #fffdf7;
+  background-image:
+    linear-gradient(rgba(255, 248, 233, .30), rgba(255, 248, 233, .30)),
+    url('https://images.pexels.com/photos/36511274/pexels-photo-36511274.jpeg?auto=compress&cs=tinysrgb&w=1280'),
+    url('https://images.pexels.com/photos/17060508/pexels-photo-17060508.jpeg?auto=compress&cs=tinysrgb&w=800'),
+    url('https://images.pexels.com/photos/37087995/pexels-photo-37087995.jpeg?auto=compress&cs=tinysrgb&w=800'),
+    url('https://images.pexels.com/photos/29625476/pexels-photo-29625476.jpeg?auto=compress&cs=tinysrgb&w=800'),
+    url('https://images.pexels.com/photos/38884297/pexels-photo-38884297.jpeg?auto=compress&cs=tinysrgb&w=1280');
+  background-size: 100% 100%, cover, 58% 64%, 58% 64%, 58% 64%, 58% 64%;
+  background-position: center, center, 0% 0%, 100% 0%, 0% 100%, 100% 100%;
+  background-repeat: no-repeat;
+  border: 1px solid rgba(24, 51, 49, .14);
+  transition: background-image .35s ease, background-color .35s ease;
+  filter: saturate(1.28) contrast(1.16);
+}
+.scene:after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse at center, transparent 28%, rgba(255, 248, 233, .18) 100%),
+    linear-gradient(90deg, rgba(255, 248, 233, .12), transparent 22%, transparent 78%, rgba(255, 248, 233, .12));
+  box-shadow: inset 0 0 36px 18px rgba(255, 248, 233, .20);
+  backdrop-filter: saturate(1.08);
+}
+.scene.has-photo {
+  background-color: #fffdf7;
+  background-image: linear-gradient(rgba(255, 253, 247, .80), rgba(255, 253, 247, .80)), var(--scene-photo);
+}
+.scene.has-photo.water-photo {
+  background-image: linear-gradient(rgba(255, 253, 247, .20), rgba(255, 253, 247, .20)), var(--scene-photo);
+}
+.scene.has-photo.market-photo {
+  background-image: linear-gradient(rgba(255, 253, 247, .34), rgba(255, 253, 247, .34)), var(--scene-photo);
+  filter: saturate(1.12) contrast(1.18);
+}
+.scene.has-photo.stories-photo {
+  background-image: linear-gradient(rgba(255, 253, 247, .38), rgba(255, 253, 247, .38)), var(--scene-photo);
+  filter: saturate(1.08) contrast(1.12);
+}
+.scene h3,
+.scene p,
+.scene button,
+.scene .node-wrap { position: relative; z-index: 2; }
+
+/* Paneles con imagen de collage de fondo */
+.collage-panel {
+  position: relative;
+  isolation: isolate;
+  background-size: cover;
+  background-position: center;
+  border: 1px solid rgba(24, 51, 49, .14);
+  box-shadow: 0 12px 32px rgba(38, 69, 54, .15);
+}
+.collage-panel:before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(90deg, rgba(255, 253, 247, .94) 0%, rgba(255, 253, 247, .82) 54%, rgba(255, 253, 247, .30) 100%);
+}
+.collage-hero       { background-image: url('https://images.pexels.com/photos/31412029/pexels-photo-31412029.jpeg?auto=compress&cs=tinysrgb&w=1280'); }
+.collage-recognize  { background-image: url('https://images.pexels.com/photos/30113649/pexels-photo-30113649.jpeg?auto=compress&cs=tinysrgb&w=1280'); }
+.collage-understand { background-image: url('https://images.pexels.com/photos/12719342/pexels-photo-12719342.jpeg?auto=compress&cs=tinysrgb&w=1280'); }
+.collage-articulate { background-image: url('https://images.pexels.com/photos/8679680/pexels-photo-8679680.jpeg?auto=compress&cs=tinysrgb&w=1280'); }
+.collage-closing    { background-image: url('https://images.pexels.com/photos/12850799/pexels-photo-12850799.jpeg?auto=compress&cs=tinysrgb&w=1280'); }
+
+/* Puntos interactivos (hotspots) */
+.hotspot-grid {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  margin-top: 28px;
+}
+.hotspot {
+  border: 2px solid rgba(255, 255, 255, .88);
+  padding: 14px;
+  border-radius: 17px;
+  text-align: left;
+  background: rgba(255, 253, 247, .86);
+  font-weight: 800;
+  color: #244b40;
+  box-shadow: 0 5px 13px rgba(29, 75, 58, .12);
+  cursor: pointer;
+  transition: .2s;
+}
+.hotspot:hover,
+.hotspot.selected { background: #315f4a; color: #fff; transform: translateY(-3px); }
+.hotspot[data-detail="water"].selected {
+  background: linear-gradient(rgba(255, 253, 247, .78), rgba(255, 253, 247, .78)),
+    url('https://images.pexels.com/photos/35017681/pexels-photo-35017681.jpeg?auto=compress&cs=tinysrgb&w=800') center/cover no-repeat;
+  color: #183331;
+}
+
+/* Panel de detalle que se abre bajo la escena */
+.detail {
+  margin-top: 18px;
+  padding: 20px;
+  border-radius: 18px;
+  background: #fffdf7;
+  border: 1px solid #cbd6bd;
+  min-height: 102px;
+}
+.detail h3 { font-family: Fraunces, serif; font-size: 1.5rem; }
+
+/* Nota desplegable "El territorio como relación" */
+.territory-note {
+  margin: 16px 0;
+  padding: 14px 16px;
+  border: 1px solid #c8d2b8;
+  border-left: 5px solid #3f7850;
+  border-radius: 16px;
+  background: #fff8e9;
+  box-shadow: 0 6px 18px rgba(38, 69, 54, .08);
+  background-image: repeating-linear-gradient(135deg, transparent 0 14px, rgba(63, 120, 80, .055) 15px 16px, transparent 17px 30px);
+}
+.territory-note-toggle {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  border: 0;
+  border-radius: 9px;
+  padding: 5px 2px;
+  background: transparent;
+  color: #183331;
+  text-align: left;
+  font-weight: 800;
+  font-size: 1.12rem;
+  cursor: pointer;
+}
+.territory-note-toggle:focus-visible { outline: 3px solid #b9573c; outline-offset: 3px; }
+.territory-note-icon {
+  flex: 0 0 30px;
+  width: 30px;
+  height: 30px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: #315f4a;
+  color: #fff;
+  font-size: 1.2rem;
+}
+.territory-note-content { max-width: 76ch; color: #183331; font-size: 1.05rem; line-height: 1.65; }
+.territory-note-content p { margin: 12px 0 0; }
+.territory-note-content p + p { margin-top: 15px; }
+
+/* Tarjetas de conceptos / pistas */
+.learning-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+  margin-top: 20px;
+}
+.concept-card {
+  padding: 20px;
+  border-radius: 18px;
+  background: #fffdf7;
+  border: 1px solid #cbd6bd;
+}
+.concept-card h3 { font-family: Fraunces, serif; font-size: 1.45rem; }
+.concept-card.pista { border-top: 6px solid #3f8eab; }
+.concept-card.idea  { border-top: 6px solid #c68134; }
+
+/* Perspectivas de la plaza */
+.perspectives { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+.perspective {
+  padding: 14px;
+  border-radius: 15px;
+  background: #f7efd9;
+  border: 0;
+  text-align: left;
+  cursor: pointer;
+  font-weight: 700;
+  color: #294c42;
+}
+.perspective:hover { background: #d9ead5; }
+
+/* Historias de Rosa y Marcela */
+.story-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 22px; }
+.story { padding: 22px; border-radius: 20px; }
+.story.rosa { background: #fff3db; border-top: 7px solid #c36642; }
+.story.marcela { background: #e9f2e5; border-top: 7px solid #588860; }
+.story h3 { font-family: Fraunces, serif; font-size: 1.7rem; }
+
+/* Flujo rural → urbano */
+.route-flow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin: 25px 0;
+}
+.route-place { padding: 13px 18px; border-radius: 999px; background: #315f4a; color: white; font-weight: 800; }
+.route-arrow { font-size: 2rem; color: #c36642; }
+.moving-tags { display: flex; justify-content: center; flex-wrap: wrap; gap: 8px; }
+.moving-tags span {
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: #fffdf7;
+  border: 1px solid #c9d4be;
+  font-weight: 700;
+}
+
+/* ---------- 7. Dimensiones del territorio ---------- */
+.dimension-layout { display: grid; grid-template-columns: 1fr 1.05fr; gap: 22px; align-items: center; }
+.water-core {
+  margin: auto;
+  width: min(290px, 100%);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  text-align: center;
+  padding: 30px;
+  background: radial-gradient(circle at 35% 30%, #c3eff0, #3f8eab);
+  color: #fff;
+  border: 10px solid #dceedd;
+  box-shadow: 0 0 0 10px rgba(63, 142, 171, .18);
+}
+.water-core strong { font-family: Fraunces, serif; font-size: 2rem; }
+
+.dimensions { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.dim { padding: 15px; border-radius: 16px; color: #fff; min-height: 104px; cursor: pointer; transition: transform .2s, box-shadow .2s; }
+.dim h3 { font-size: 1.2rem; font-weight: 800; }
+.dim p { line-height: 1.15; }
+.dim.social-d        { background: #bd5a45; }
+.dim.cultural-d      { background: #74415e; }
+.dim.economic-d      { background: #c68134; }
+.dim.environmental-d { background: #3f7850; }
+.dim.political-d     { background: #3f8eab; grid-column: span 2; }
+.dim:hover,
+.dim:focus-visible {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 18px rgba(24, 51, 49, .22);
+  outline: 3px solid #f3c45c;
+  outline-offset: 2px;
+}
+
+.dimension-progress { margin: 14px 0; padding: 12px 16px; border-radius: 14px; background: #fffdf7; font-weight: 800; color: #244b40; }
+
+/* Vista doble: problema / fortaleza */
+.dual-view { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+.view-card { padding: 23px; border-radius: 19px; }
+.view-card.problem  { background: #fff1db; border: 1px solid #e5b975; }
+.view-card.strength { background: #e7f1e2; border: 1px solid #9fc29c; }
+.view-card h3 { font-family: Fraunces, serif; font-size: 1.6rem; }
+
+/* Rueda de acciones y herramientas */
+.action-wheel { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin: 22px 0; }
+.action { padding: 11px 15px; border-radius: 999px; background: #315f4a; color: #fff; font-weight: 800; }
+.tools { display: flex; gap: 10px; flex-wrap: wrap; }
+.tool { padding: 12px 14px; border-radius: 14px; background: #fffdf7; border: 1px solid #bbceb9; font-weight: 700; }
+
+/* ---------- 8. Articulación ---------- */
+.actor-map {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 15px;
+  align-items: center;
+  min-height: 350px;
+}
+.actor {
+  border: 0;
+  border-radius: 18px;
+  padding: 16px;
+  background: #fffdf7;
+  color: #25483f;
+  font-weight: 800;
+  cursor: pointer;
+  box-shadow: 0 5px 14px rgba(38, 69, 54, .12);
+  transition: .2s;
+}
+.actor:hover,
+.actor.chosen { background: #315f4a; color: #fff; transform: scale(1.03); }
+.community { grid-column: 2; grid-row: 2; background: #c36642; color: #fff; font-size: 1.25rem; }
+.aps  { grid-column: 1; grid-row: 1; }
+.cb   { grid-column: 3; grid-row: 1; }
+.org  { grid-column: 1; grid-row: 3; }
+.inst { grid-column: 3; grid-row: 3; }
+
+/* Ejercicio guiado */
+.exercise { margin-top: 22px; padding: 22px; border-radius: 22px; background: #fffdf7; border: 1px solid #c6d5bf; }
+.step { border-left: 6px solid #3f8eab; padding: 10px 0 10px 16px; margin: 16px 0; }
+.step h3 { font-family: Fraunces, serif; font-size: 1.55rem; }
+.connection-controls { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+.connect-btn {
+  border: 1px solid #99bca3;
+  background: #eef4e8;
+  color: #244b40;
+  border-radius: 14px;
+  padding: 13px;
+  text-align: left;
+  font-weight: 700;
+  cursor: pointer;
+}
+.connect-btn.active { background: #315f4a; color: #fff; }
+.connection-message { margin-top: 15px; padding: 15px; border-radius: 14px; background: #e9f2e5; min-height: 58px; font-weight: 600; }
+
+/* Preguntas a la comunidad */
+.community-questions { display: flex; flex-wrap: wrap; gap: 9px; margin-top: 14px; }
+.community-q {
+  border: 1px solid #d29c77;
+  background: #fff2df;
+  padding: 10px 12px;
+  border-radius: 999px;
+  color: #653c2b;
+  font-weight: 700;
+  cursor: pointer;
+}
+.community-q:hover { background: #c36642; color: #fff; }
+
+/* Pie de acciones */
+.footer-actions { display: flex; justify-content: space-between; gap: 14px; margin-top: 28px; flex-wrap: wrap; }
+.hidden { display: none !important; }
+
+/* ---------- 9. Ventanas emergentes (modales / overlays) ---------- */
+.dimension-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  background: rgba(14, 35, 32, .72);
+  display: grid;
+  place-items: center;
+  padding: 16px;
+  overflow: auto;
+}
+.weave-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  background: rgba(18, 39, 36, .72);
+  display: grid;
+  place-items: center;
+  padding: 16px;
+  overflow: auto;
+}
+.weave-card {
+  position: relative;
+  width: min(850px, 100%);
+  max-height: calc(92 * min(var(--vh, 1vh), 1vh));
+  overflow: auto;
+  border: 1px solid #d8cbb0;
+  border-radius: 22px;
+  padding: clamp(22px, 4vw, 42px);
+  background-color: #fff8e9;
+  background-image:
+    repeating-linear-gradient(15deg, transparent 0 27px, rgba(63, 120, 80, .08) 28px 29px, transparent 30px 56px),
+    repeating-linear-gradient(105deg, transparent 0 39px, rgba(63, 142, 171, .07) 40px 41px, transparent 42px 78px);
+  box-shadow: 0 24px 70px rgba(11, 38, 38, .45);
+  color: #183331;
+}
+.weave-card h2 { font-family: Fraunces, serif; font-size: clamp(1.8rem, 4vw, 2.6rem); line-height: 1.1; color: #183331; margin: 0 0 22px; }
+.weave-copy { max-width: 68ch; font-size: 1.12rem; line-height: 1.7; }
+.weave-copy p { margin: 0 0 18px; }
+.weave-copy p:last-child { margin-bottom: 0; }
+.weave-close {
+  display: block;
+  margin: 24px 0 0 auto;
+  border: 0;
+  border-radius: 12px;
+  padding: 11px 20px;
+  background: #315f4a;
+  color: #fff;
+  font: inherit;
+  font-weight: 800;
+  cursor: pointer;
+}
+.weave-close:focus-visible { outline: 4px solid #eeae3c; outline-offset: 3px; }
+
+.dimension-modal {
+  width: min(900px, 100%);
+  max-height: calc(94 * min(var(--vh, 1vh), 1vh));
+  overflow: auto;
+  background: #fffdf7;
+  border-radius: 22px;
+  padding: clamp(18px, 3vw, 32px);
+  box-shadow: 0 24px 70px #0b2626aa;
+  color: #183331;
+}
+.dimension-modal:focus { outline: 4px solid #f3c45c; }
+.modal-top { display: flex; justify-content: space-between; gap: 12px; align-items: center; }
+.modal-close,
+.modal-nav,
+.answer-button,
+.video-placeholder { border: 0; border-radius: 12px; padding: 11px 14px; font: inherit; font-weight: 800; cursor: pointer; }
+.modal-close,
+.modal-nav { background: #315f4a; color: white; }
+.illustration {
+  display: grid;
+  place-items: center;
+  min-height: 130px;
+  margin: 14px 0;
+  border-radius: 18px;
+  background: linear-gradient(135deg, #d8eddf, #c3e4e7);
+  font-size: 3rem;
+  letter-spacing: .18em;
+}
+.video-placeholder { width: 100%; min-height: 128px; background: #183331; color: white; text-align: left; display: flex; align-items: center; gap: 14px; }
+.video-placeholder span:first-child { font-size: 2rem; }
+.question-box { padding: 14px; margin: 12px 0; background: #f2f4e8; border-radius: 14px; }
+.question-box fieldset { border: 0; padding: 0; margin: 0; }
+.question-box legend { font-weight: 800; margin-bottom: 8px; }
+.question-box label { display: block; padding: 5px; }
+.feedback { font-weight: 800; min-height: 24px; }
+.modal-actions { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 16px; }
+.answer-button { background: #b9573c; color: white; }
+.dimension-summary { padding: 10px; border-radius: 12px; background: #edf4df; margin: 8px 0; }
+
+/* ---------- 10. Responsive ---------- */
+@media (max-width: 760px) {
+  .scene { background-position: center; }
+  .collage-panel { background-position: center; }
+  .collage-panel:before { background: rgba(255, 253, 247, .88); }
+  .main-content { padding: 18px 15px 42px; }
+  .welcome-grid,
+  .learning-grid,
+  .story-grid,
+  .dimension-layout,
+  .dual-view { grid-template-columns: 1fr; }
+  .hotspot-grid,
+  .perspectives { grid-template-columns: 1fr 1fr; }
+  .actor-map { grid-template-columns: 1fr 1fr; }
+  .community { grid-column: span 2; grid-row: auto; }
+  .aps, .cb, .org, .inst { grid-column: auto; grid-row: auto; }
+  .connection-controls { grid-template-columns: 1fr; }
+  .topbar-inner { padding: 12px 15px; }
+  .route-nav { margin-top: 10px; }
+  .page-h1 { font-size: 2.75rem; }
+}
+
+/* ============================================================
+   11. Utilidades y mejoras de accesibilidad
+   ------------------------------------------------------------
+   Clases añadidas para retirar los estilos "inline" del HTML
+   y mejorar la accesibilidad y el pulido visual.
+   ============================================================ */
+
+/* Enlace para saltar al contenido (visible solo con teclado) */
+.skip-link {
+  position: absolute;
+  left: 12px;
+  top: -60px;
+  z-index: 100;
+  background: #183331;
+  color: #fff;
+  padding: 10px 16px;
+  border-radius: 10px;
+  font-weight: 800;
+  text-decoration: none;
+  transition: top .2s ease;
+}
+.skip-link:focus { top: 12px; }
+
+/* Texto solo para lectores de pantalla */
+.visually-hidden {
+  position: absolute !important;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Encabezado de la barra superior */
+.topbar-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: flex-end;
+}
+.topbar-brand .brand-title { font-size: 1.25rem; }
+.route-btn[aria-current="page"] { background: #315f4a; color: #fff; border-color: #315f4a; }
+
+/* Rellenos de tarjetas (reemplazan padding inline) */
+.pad-lg { padding: 36px; }
+.pad-md { padding: 24px; }
+.pad-sm { padding: 20px; }
+
+/* Tipografía utilitaria */
+.lead { font-size: 1.125rem; line-height: 1.35; }
+.lead-lg { font-size: 1.2rem; line-height: 1.35; }
+.intro-note { font-size: 1.125rem; margin-top: 16px; font-weight: 600; color: #355e50; }
+.center { text-align: center; }
+.measure { max-width: 42rem; }
+.measure-wide { max-width: 48rem; margin-inline: auto; }
+.stack-sm { margin-top: 16px; }
+.stack-md { margin-top: 20px; }
+.stack-lg { margin-top: 28px; }
+
+/* Tarjetas de resumen con color de acento */
+.block-card { border-radius: 16px; }
+.block-card.olive { background: #edf4df; }
+.block-card.sand { background: #f7f1df; }
+.block-card.sage { background: #e7f1e2; }
+.block-card.warn { background: #fff0dc; border-left: 8px solid #c36642; }
+.block-title { font-weight: 800; font-size: 1.5rem; }
+.block-title.olive { color: #386341; }
+.block-title.sage { color: #356840; }
+.block-title.warn { color: #813d27; }
+.block-strong { font-weight: 800; font-size: 1.25rem; }
+.block-strong.blue { color: #23647b; }
+.block-strong.olive { color: #294c42; }
+.block-emph { font-size: 1.25rem; line-height: 1.3; font-weight: 600; color: #57372c; }
+
+/* Encabezados de los bloques "¿Cómo leemos?" / escenas */
+.scene-title { font-weight: 800; font-size: 1.6rem; }
+.panel-title { font-weight: 700; font-size: 1.6rem; }
+
+/* Historias (figure/figcaption) */
+.story figure { margin: 0; }
+.story-img {
+  width: 100%;
+  height: 14rem;
+  object-fit: cover;
+  border-radius: 12px;
+  margin-bottom: 16px;
+  background: #e9e1cf;
+}
+.story-note { margin-top: 16px; font-size: 1.125rem; font-weight: 700; color: #355e50; }
+.story-note.soft { margin-top: 12px; font-size: 1rem; font-weight: 600; color: #294c42; }
+
+/* Etiquetas de color para pistas / ideas */
+.eyebrow.blue { color: #23647b; }
+.eyebrow.amber { color: #9c5b17; }
+.idea-text { font-size: 1.25rem; font-weight: 700; line-height: 1.3; color: #5b421e; }
+
+/* Núcleo de dimensiones: texto secundario */
+.water-core-sub { display: block; margin-top: 8px; font-size: 1.125rem; font-weight: 600; }
+
+/* Pie de página del sitio */
+.site-footer {
+  width: 100%;
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 22px 24px 40px;
+  color: #4a665d;
+  font-size: .95rem;
+  text-align: center;
+}
+.site-footer strong { color: #2e5346; }
+
+/* Aviso cuando JavaScript está desactivado */
+.noscript-note {
+  margin: 16px auto;
+  max-width: 1180px;
+  padding: 14px 18px;
+  border-radius: 14px;
+  background: #fff0dc;
+  border-left: 6px solid #c36642;
+  color: #813d27;
+  font-weight: 700;
+}
+
+/* Respetar la preferencia de menos animación */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: .001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+@media (max-width: 760px) {
+  .pad-lg { padding: 22px; }
+  .pad-md { padding: 18px; }
+}

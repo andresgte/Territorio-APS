@@ -1,0 +1,14 @@
+# Archivos del sistema macOS
+.DS_Store
+**/.DS_Store
+
+# Logs y temporales
+*.log
+*.tmp
+
+# Carpetas de dependencias (por si se agregan luego)
+node_modules/
+
+# Configuración local de editores
+.vscode/
+.idea/
