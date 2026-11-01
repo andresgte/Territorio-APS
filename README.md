@@ -25,7 +25,7 @@ Terreno APS/
 │   ├── interacciones.js → Hotspots, nota desplegable, actores, conexiones, tejido
 │   ├── dimensiones.js   → Las 5 dimensiones + preguntas + resumen final
 │   └── narracion.js     → Narración por voz de GEA y Mapetto
-├── img/                 → Carpeta para imágenes locales (opcional)
+├── img/                 → Imágenes locales de Mapetto y GEA
 ├── contenido/           → Documento base de referencia
 └── README.md            → Este archivo
 ```
@@ -55,5 +55,8 @@ virtuales).
   `js/dimensiones.js`.
 - **Mensajes de las conexiones (Parada 3):** objeto `textosConexion` en
   `js/interacciones.js`.
-- **Imágenes:** actualmente se cargan desde Pexels. Para usar imágenes propias,
-  colócalas en `img/` y cambia las rutas en `index.html` y `css/estilos.css`.
+- **Imágenes de personajes:** están en `img/` y se usan en la bienvenida y en
+  momentos clave de cada parada. Para cambiar una ilustración, actualiza su
+  ruta `img/...` y su texto alternativo en `index.html`.
+- **Imágenes de contexto:** algunas escenas y fotografías todavía se cargan
+  desde Pexels; requieren conexión a internet.

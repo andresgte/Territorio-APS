@@ -123,10 +123,15 @@ const datosDimensiones = [
   }
 ];
 
+const ordenDimensiones = ['AMBIENTAL', 'ECONÓMICA', 'SOCIAL', 'CULTURAL', 'POLÍTICO-INSTITUCIONAL'];
+datosDimensiones.sort((a, b) => ordenDimensiones.indexOf(a.name) - ordenDimensiones.indexOf(b.name));
+
 /* ---------- Estado del progreso ---------- */
 const exploradas = new Set();     // dimensiones abiertas
 const respondidas = new Set();    // preguntas respondidas (clave "dim-preg")
 const aciertos = new Set();       // preguntas correctas
+const respuestasSeleccionadas = new Map();
+const totalPreguntas = datosDimensiones.reduce((total, dimension) => total + dimension.questions.length, 0);
 let dimensionActiva = 0;
 let videoPausado = false;
 let focoPrevioDimension = null;
@@ -138,7 +143,7 @@ const contenedorPreguntas = document.getElementById('dimensionQuestions');
 /* ---------- Progreso visible ---------- */
 function pintarProgreso() {
   document.getElementById('dimensionProgress').textContent =
-    `Dimensiones exploradas: ${exploradas.size} de 5 · Preguntas respondidas: ${respondidas.size} de 10 · Aciertos: ${aciertos.size}`;
+    `Dimensiones exploradas: ${exploradas.size} de ${datosDimensiones.length} · Preguntas respondidas: ${respondidas.size} de ${totalPreguntas} · Aciertos: ${aciertos.size}`;
 
   document.querySelectorAll('.dim').forEach((el, i) => {
     el.setAttribute('role', 'button');
@@ -153,7 +158,7 @@ function renderizarDimension(i) {
   dimensionActiva = i;
   const d = datosDimensiones[i];
 
-  document.getElementById('dimensionCount').textContent = `Dimensión ${i + 1} de 5 · Mapetto te acompaña`;
+  document.getElementById('dimensionCount').textContent = `Dimensión ${i + 1} de ${datosDimensiones.length} · Mapetto te acompaña`;
   document.getElementById('dimensionTitle').textContent = d.name;
   document.getElementById('dimensionIllustration').textContent = d.icon;
   document.getElementById('dimensionIllustration').setAttribute('aria-label', `Ilustración: ${d.name.toLowerCase()}, ${d.topic}`);
@@ -168,16 +173,31 @@ function renderizarDimension(i) {
         <legend>${j + 1}. ${q.q}</legend>
         ${q.options.map((o, k) => `
           <label>
-            <input type="${q.multi ? 'checkbox' : 'radio'}" name="dim${i}q${j}" value="${k}"> ${o}
+            <input type="${q.multi ? 'checkbox' : 'radio'}" name="dim${i}q${j}" value="${k}" ${respuestasSeleccionadas.get(`${i}-${j}`)?.includes(k) ? 'checked' : ''}> ${o}
           </label>`).join('')}
       </fieldset>
       <p id="fb${i}${j}" class="feedback" aria-live="polite"></p>
     </div>`).join('');
 
-  document.getElementById('modalFeedback').textContent = 'GEA: Observa cómo estas relaciones se entrelazan en la vida cotidiana.';
+  d.questions.forEach((q, j) => {
+    const clave = `${i}-${j}`;
+    const feedback = document.getElementById(`fb${i}${j}`);
+    if (respondidas.has(clave)) {
+      const correcta = aciertos.has(clave);
+      feedback.textContent = correcta
+        ? `Correcta. ${q.explain}`
+        : `Revisa tu respuesta. ${q.explain}`;
+      feedback.style.color = correcta ? '#28613c' : '#873a2a';
+    }
+  });
+
+  const preguntasRespondidasDimension = d.questions.filter((_, j) => respondidas.has(`${i}-${j}`)).length;
+  document.getElementById('modalFeedback').textContent = preguntasRespondidasDimension
+    ? `GEA: Has respondido ${preguntasRespondidasDimension} de ${d.questions.length} preguntas de esta dimensión.`
+    : 'GEA: Observa cómo estas relaciones se entrelazan en la vida cotidiana.';
   document.getElementById('previousDimension').disabled = i === 0;
-  document.getElementById('nextDimension').disabled = i === 4;
-  document.getElementById('nextDimension').textContent = i === 4 ? 'Cerrar y finalizar' : 'Siguiente →';
+  document.getElementById('nextDimension').disabled = false;
+  document.getElementById('nextDimension').textContent = i === datosDimensiones.length - 1 ? 'Cerrar dimensión' : 'Siguiente →';
   pintarProgreso();
 }
 
@@ -193,6 +213,9 @@ function mostrarResumenFinal() {
   document.getElementById('finalSummaries').innerHTML = datosDimensiones
     .map(d => `<div class="dimension-summary"><strong>${d.name}</strong> · ${d.definition}</div>`)
     .join('');
+  document.getElementById('finalScore').textContent =
+    `Completaste las ${totalPreguntas} preguntas y obtuviste ${aciertos.size} respuestas correctas.`;
+  overlayDimension.classList.add('hidden');
   document.getElementById('finalOverlay').classList.remove('hidden');
   document.querySelector('#finalOverlay [role="dialog"]').focus();
 }
@@ -201,10 +224,7 @@ function cerrarDimension() {
   overlayDimension.classList.add('hidden');
   exploradas.add(dimensionActiva);
   pintarProgreso();
-  // Si ya se exploraron las 5 y se respondieron las 10, mostramos el resumen
-  if (exploradas.size === 5 && respondidas.size === 10) {
-    mostrarResumenFinal();
-  } else if (focoPrevioDimension) {
+  if (focoPrevioDimension) {
     focoPrevioDimension.focus();
   }
 }
@@ -225,7 +245,11 @@ overlayDimension.addEventListener('click', evento => {
   if (evento.target === overlayDimension) cerrarDimension();
 });
 document.addEventListener('keydown', evento => {
-  if (evento.key === 'Escape' && !overlayDimension.classList.contains('hidden')) cerrarDimension();
+  if (evento.key !== 'Escape') return;
+  if (!overlayDimension.classList.contains('hidden')) cerrarDimension();
+  else if (!document.getElementById('finalOverlay').classList.contains('hidden')) {
+    cerrarResumenFinal();
+  }
 });
 
 /* ---------- Navegación entre dimensiones dentro del modal ---------- */
@@ -233,7 +257,7 @@ document.getElementById('previousDimension').addEventListener('click', () => {
   renderizarDimension(Math.max(0, dimensionActiva - 1));
 });
 document.getElementById('nextDimension').addEventListener('click', () => {
-  if (dimensionActiva < 4) renderizarDimension(dimensionActiva + 1);
+  if (dimensionActiva < datosDimensiones.length - 1) renderizarDimension(dimensionActiva + 1);
   else cerrarDimension();
 });
 
@@ -241,6 +265,7 @@ document.getElementById('nextDimension').addEventListener('click', () => {
 document.getElementById('checkAnswers').addEventListener('click', () => {
   const d = datosDimensiones[dimensionActiva];
   let todasCorrectas = true;
+  let todasRespondidas = true;
 
   d.questions.forEach((q, j) => {
     const seleccionadas = [...contenedorPreguntas.querySelectorAll(`input[name="dim${dimensionActiva}q${j}"]:checked`)]
@@ -250,9 +275,15 @@ document.getElementById('checkAnswers').addEventListener('click', () => {
     const feedback = document.getElementById(`fb${dimensionActiva}${j}`);
 
     if (seleccionadas.length) {
+      respuestasSeleccionadas.set(clave, seleccionadas);
       respondidas.add(clave);
       if (correcto) aciertos.add(clave);
       else aciertos.delete(clave);
+    } else {
+      respuestasSeleccionadas.delete(clave);
+      respondidas.delete(clave);
+      aciertos.delete(clave);
+      todasRespondidas = false;
     }
     if (!correcto) todasCorrectas = false;
 
@@ -266,10 +297,37 @@ document.getElementById('checkAnswers').addEventListener('click', () => {
 
   document.getElementById('modalFeedback').textContent = todasCorrectas
     ? 'GEA: ¡Muy bien! Cada dimensión aporta una mirada que se relaciona con las demás.'
-    : 'GEA: Revisa las respuestas y vuelve a intentarlo; comprender también es relacionar.';
+    : todasRespondidas
+      ? 'GEA: Revisa las respuestas y vuelve a intentarlo; comprender también es relacionar.'
+      : 'GEA: Responde todas las preguntas de esta dimensión para continuar.';
 
   pintarProgreso();
-  if (respondidas.size === 10) mostrarResumenFinal();
+  if (respondidas.size === totalPreguntas) {
+    exploradas.add(dimensionActiva);
+    pintarProgreso();
+    mostrarResumenFinal();
+  }
+});
+
+contenedorPreguntas.addEventListener('change', evento => {
+  if (!(evento.target instanceof HTMLInputElement)) return;
+  const identificadores = evento.target.name.match(/^dim(\d+)q(\d+)$/);
+  if (!identificadores) return;
+  const [, indiceDimension, indicePregunta] = identificadores;
+  const clave = `${indiceDimension}-${indicePregunta}`;
+  const seleccionadas = [...contenedorPreguntas.querySelectorAll(`input[name="${evento.target.name}"]:checked`)]
+    .map(input => Number(input.value));
+  if (seleccionadas.length) respuestasSeleccionadas.set(clave, seleccionadas);
+  else respuestasSeleccionadas.delete(clave);
+
+  if (respondidas.delete(clave)) {
+    aciertos.delete(clave);
+    const feedback = document.getElementById(`fb${indiceDimension}${indicePregunta}`);
+    if (feedback) feedback.textContent = '';
+    document.getElementById('modalFeedback').textContent =
+      'GEA: Tu respuesta cambió. Vuelve a verificarla para actualizar el progreso.';
+    pintarProgreso();
+  }
 });
 
 /* ---------- Miniatura de video (pausar / reanudar simulado) ---------- */
@@ -280,17 +338,21 @@ document.getElementById('videoControl').addEventListener('click', evento => {
 });
 
 /* ---------- Acciones del resumen final ---------- */
-document.getElementById('finalClose').addEventListener('click', () => {
+function cerrarResumenFinal() {
   document.getElementById('finalOverlay').classList.add('hidden');
-});
+  document.getElementById('dimensionProgress').focus();
+}
+
+document.getElementById('finalClose').addEventListener('click', cerrarResumenFinal);
 document.getElementById('returnJourney').addEventListener('click', () => {
   document.getElementById('finalOverlay').classList.add('hidden');
-  window.recorrido.mostrarPantalla('stop2');
+  window.recorrido.desbloquearParada('stop3');
+  window.recorrido.mostrarPantalla('stop3');
 });
 document.getElementById('reviewDimensions').addEventListener('click', () => {
   document.getElementById('finalOverlay').classList.add('hidden');
   window.recorrido.mostrarPantalla('stop2');
-  abrirDimension(0, null);
+  abrirDimension(0, document.getElementById('dimensionProgress'));
 });
 
 // Pintar el progreso inicial al cargar

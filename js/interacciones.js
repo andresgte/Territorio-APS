@@ -10,17 +10,6 @@
    - Conexiones del ejercicio guiado (Parada 3)
    ============================================================ */
 
-/* ---------- Nota desplegable: "El territorio como relación" ---------- */
-const notaToggle = document.getElementById('territory-note-toggle');
-const notaContenido = document.getElementById('territory-note-content');
-
-notaToggle.addEventListener('click', () => {
-  const abierto = notaToggle.getAttribute('aria-expanded') === 'true';
-  notaToggle.setAttribute('aria-expanded', String(!abierto));
-  notaContenido.hidden = abierto;
-  notaToggle.querySelector('.territory-note-icon').textContent = abierto ? '＋' : '−';
-});
-
 /* ---------- Overlay "¿Por qué hablamos de un tejido?" ---------- */
 const tejidoOverlay = document.getElementById('weaveOverlay');
 const tejidoAbrir = document.getElementById('weaveOpen');
@@ -62,8 +51,8 @@ tejidoOverlay.addEventListener('keydown', evento => {
 /* ---------- Hotspots de la Parada 1 ---------- */
 const fotosHotspot = {
   water: 'https://images.pexels.com/photos/35017681/pexels-photo-35017681.jpeg?auto=compress&cs=tinysrgb&w=1280',
-  market: 'https://images.pexels.com/photos/39960577/pexels-photo-39960577.jpeg?auto=compress&cs=tinysrgb&w=1280',
-  stories: 'https://images.pexels.com/photos/39960577/pexels-photo-39960577.jpeg?auto=compress&cs=tinysrgb&w=1280'
+  market: 'img/Marcela.jpg',
+  stories: 'img/Rosa.jpg'
 };
 
 document.querySelectorAll('.hotspot').forEach(boton => {
@@ -76,6 +65,10 @@ document.querySelectorAll('.hotspot').forEach(boton => {
     document.querySelectorAll('#stop1 .detail').forEach(item => item.classList.add('hidden'));
     escena.classList.remove('has-photo', 'water-photo', 'market-photo', 'stories-photo');
     escena.style.removeProperty('--scene-photo');
+    escena.style.removeProperty('background-image');
+    escena.style.removeProperty('background-size');
+    escena.style.removeProperty('background-position');
+    escena.style.removeProperty('background-repeat');
 
     // Si estaba activo, solo lo cerramos
     if (yaEstabaActivo) return;
@@ -87,8 +80,17 @@ document.querySelectorAll('.hotspot').forEach(boton => {
     // Cambiar la foto de fondo de la escena según el hotspot
     const foto = fotosHotspot[boton.dataset.detail] || null;
     if (foto) {
-      escena.style.setProperty('--scene-photo', `url("${foto}")`);
       escena.classList.add('has-photo');
+      if (boton.dataset.detail === 'market' || boton.dataset.detail === 'stories') {
+        const opacidad = '.62';
+        escena.style.backgroundImage =
+          `linear-gradient(rgba(255, 253, 247, ${opacidad}), rgba(255, 253, 247, ${opacidad})), url("${foto}")`;
+        escena.style.backgroundSize = '100% 100%, cover';
+        escena.style.backgroundPosition = 'center';
+        escena.style.backgroundRepeat = 'no-repeat';
+      } else {
+        escena.style.setProperty('--scene-photo', `url("${foto}")`);
+      }
       if (boton.dataset.detail === 'water') escena.classList.add('water-photo');
       if (boton.dataset.detail === 'market') escena.classList.add('market-photo');
       if (boton.dataset.detail === 'stories') escena.classList.add('stories-photo');

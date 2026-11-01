@@ -227,6 +227,51 @@ button:focus-visible { outline: 4px solid #f3c45c; outline-offset: 3px; }
 .mapetto .guide-icon i { transform: rotate(45deg); }
 .guide h2 { font-family: Fraunces, serif; font-size: 1.45rem; }
 .guide p { font-size: 1.08rem; line-height: 1.3; }
+.guide-character {
+  float: left;
+  width: 82px;
+  height: 100px;
+  object-fit: contain;
+  margin: 0 12px 6px 0;
+  mix-blend-mode: multiply;
+}
+.guide.mapetto .guide-character {
+  width: 112px;
+  height: 132px;
+  mix-blend-mode: normal;
+}
+
+/* Personajes integrados en los momentos clave del recorrido */
+.character-note {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-top: 16px;
+  padding: 10px 14px;
+  border: 1px solid rgba(24, 51, 49, .12);
+  border-radius: 16px;
+  background: rgba(255, 253, 247, .92);
+  color: #294c42;
+}
+.character-note img {
+  flex: 0 0 auto;
+  width: clamp(64px, 8vw, 88px);
+  height: 88px;
+  object-fit: contain;
+  mix-blend-mode: multiply;
+}
+.character-note p { flex: 1; margin: 0; line-height: 1.4; }
+.character-note strong { color: #315f4a; }
+.scene .character-note { position: relative; z-index: 2; }
+.tools-with-character { display: flex; align-items: center; gap: 14px; }
+.tools-with-character > img {
+  flex: 0 0 74px;
+  width: 74px;
+  height: 94px;
+  object-fit: contain;
+  mix-blend-mode: multiply;
+}
+.tools-with-character .tools { flex: 1; }
 
 /* Hebras temáticas (etiquetas de colores) */
 .thread-row { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 24px; }
@@ -286,7 +331,7 @@ button:focus-visible { outline: 4px solid #f3c45c; outline-offset: 3px; }
   border-radius: 24px;
   background-color: #fffdf7;
   background-image:
-    linear-gradient(rgba(255, 248, 233, .30), rgba(255, 248, 233, .30)),
+    linear-gradient(rgba(255, 248, 233, .62), rgba(255, 248, 233, .62)),
     url('https://images.pexels.com/photos/36511274/pexels-photo-36511274.jpeg?auto=compress&cs=tinysrgb&w=1280'),
     url('https://images.pexels.com/photos/17060508/pexels-photo-17060508.jpeg?auto=compress&cs=tinysrgb&w=800'),
     url('https://images.pexels.com/photos/37087995/pexels-photo-37087995.jpeg?auto=compress&cs=tinysrgb&w=800'),
@@ -297,7 +342,6 @@ button:focus-visible { outline: 4px solid #f3c45c; outline-offset: 3px; }
   background-repeat: no-repeat;
   border: 1px solid rgba(24, 51, 49, .14);
   transition: background-image .35s ease, background-color .35s ease;
-  filter: saturate(1.28) contrast(1.16);
 }
 .scene:after {
   content: "";
@@ -316,15 +360,13 @@ button:focus-visible { outline: 4px solid #f3c45c; outline-offset: 3px; }
   background-image: linear-gradient(rgba(255, 253, 247, .80), rgba(255, 253, 247, .80)), var(--scene-photo);
 }
 .scene.has-photo.water-photo {
-  background-image: linear-gradient(rgba(255, 253, 247, .20), rgba(255, 253, 247, .20)), var(--scene-photo);
+  background-image: linear-gradient(rgba(255, 253, 247, .62), rgba(255, 253, 247, .62)), var(--scene-photo);
 }
 .scene.has-photo.market-photo {
-  background-image: linear-gradient(rgba(255, 253, 247, .34), rgba(255, 253, 247, .34)), var(--scene-photo);
-  filter: saturate(1.12) contrast(1.18);
+  background-image: linear-gradient(rgba(255, 253, 247, .62), rgba(255, 253, 247, .62)), var(--scene-photo);
 }
 .scene.has-photo.stories-photo {
-  background-image: linear-gradient(rgba(255, 253, 247, .38), rgba(255, 253, 247, .38)), var(--scene-photo);
-  filter: saturate(1.08) contrast(1.12);
+  background-image: linear-gradient(rgba(255, 253, 247, .62), rgba(255, 253, 247, .62)), var(--scene-photo);
 }
 .scene h3,
 .scene p,
@@ -392,49 +434,42 @@ button:focus-visible { outline: 4px solid #f3c45c; outline-offset: 3px; }
   min-height: 102px;
 }
 .detail h3 { font-family: Fraunces, serif; font-size: 1.5rem; }
+.dynamics-image {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 12px;
+}
 
-/* Nota desplegable "El territorio como relación" */
+/* Nota fija "El territorio como relación" */
 .territory-note {
+  display: flex;
+  align-items: center;
+  gap: 16px;
   margin: 16px 0;
   padding: 14px 16px;
   border: 1px solid #c8d2b8;
   border-left: 5px solid #3f7850;
   border-radius: 16px;
   background: #fff8e9;
+  background-image:
+    linear-gradient(rgba(255, 248, 233, .68), rgba(255, 248, 233, .68)),
+    url('../img/Descripción-general.jpg');
+  background-size: cover;
+  background-position: center 42%;
+  background-repeat: no-repeat;
   box-shadow: 0 6px 18px rgba(38, 69, 54, .08);
-  background-image: repeating-linear-gradient(135deg, transparent 0 14px, rgba(63, 120, 80, .055) 15px 16px, transparent 17px 30px);
 }
-.territory-note-toggle {
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  border: 0;
-  border-radius: 9px;
-  padding: 5px 2px;
-  background: transparent;
-  color: #183331;
-  text-align: left;
-  font-weight: 800;
-  font-size: 1.12rem;
-  cursor: pointer;
+.territory-note-character {
+  flex: 0 0 76px;
+  width: 76px;
+  height: 92px;
+  object-fit: contain;
+  mix-blend-mode: multiply;
 }
-.territory-note-toggle:focus-visible { outline: 3px solid #b9573c; outline-offset: 3px; }
-.territory-note-icon {
-  flex: 0 0 30px;
-  width: 30px;
-  height: 30px;
-  display: grid;
-  place-items: center;
-  border-radius: 50%;
-  background: #315f4a;
-  color: #fff;
-  font-size: 1.2rem;
-}
-.territory-note-content { max-width: 76ch; color: #183331; font-size: 1.05rem; line-height: 1.65; }
-.territory-note-content p { margin: 12px 0 0; }
-.territory-note-content p + p { margin-top: 15px; }
+.territory-note-copy { color: #183331; font-size: 1.05rem; line-height: 1.55; }
+.territory-note-copy h2 { font-family: Fraunces, serif; font-size: 1.4rem; }
+.territory-note-copy p { margin-top: 8px; }
 
 /* Tarjetas de conceptos / pistas */
 .learning-grid {
@@ -452,6 +487,22 @@ button:focus-visible { outline: 4px solid #f3c45c; outline-offset: 3px; }
 .concept-card h3 { font-family: Fraunces, serif; font-size: 1.45rem; }
 .concept-card.pista { border-top: 6px solid #3f8eab; }
 .concept-card.idea  { border-top: 6px solid #c68134; }
+.concept-tip {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 8px;
+}
+.concept-tip > img {
+  flex: 0 0 64px;
+  width: 64px;
+  height: 72px;
+  object-fit: contain;
+  mix-blend-mode: multiply;
+}
+.concept-tip h3 { margin: 0 0 6px; }
+.concept-tip p { margin: 0; font-size: 1.125rem; line-height: 1.3; }
+.concept-tip.idea-tip p { font-size: 1.25rem; font-weight: 700; line-height: 1.3; color: #5b421e; }
 
 /* Perspectivas de la plaza */
 .perspectives { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
@@ -530,6 +581,7 @@ button:focus-visible { outline: 4px solid #f3c45c; outline-offset: 3px; }
 }
 
 .dimension-progress { margin: 14px 0; padding: 12px 16px; border-radius: 14px; background: #fffdf7; font-weight: 800; color: #244b40; }
+.dimension-completion { padding: 14px 16px; border-radius: 14px; background: #edf4df; color: #244b40; font-weight: 800; }
 
 /* Vista doble: problema / fortaleza */
 .dual-view { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
@@ -638,8 +690,11 @@ button:focus-visible { outline: 4px solid #f3c45c; outline-offset: 3px; }
   padding: clamp(22px, 4vw, 42px);
   background-color: #fff8e9;
   background-image:
-    repeating-linear-gradient(15deg, transparent 0 27px, rgba(63, 120, 80, .08) 28px 29px, transparent 30px 56px),
-    repeating-linear-gradient(105deg, transparent 0 39px, rgba(63, 142, 171, .07) 40px 41px, transparent 42px 78px);
+    linear-gradient(rgba(255, 248, 233, .22), rgba(255, 248, 233, .22)),
+    url('../img/Descripción-general.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
   box-shadow: 0 24px 70px rgba(11, 38, 38, .45);
   color: #183331;
 }
@@ -720,6 +775,16 @@ button:focus-visible { outline: 4px solid #f3c45c; outline-offset: 3px; }
   .topbar-inner { padding: 12px 15px; }
   .route-nav { margin-top: 10px; }
   .page-h1 { font-size: 2.75rem; }
+  .guide-character { width: 68px; height: 84px; margin-right: 9px; }
+  .guide.mapetto .guide-character { width: 92px; height: 108px; }
+  .territory-note { align-items: flex-start; gap: 8px; padding: 12px; }
+  .territory-note-character { flex-basis: 58px; width: 58px; height: 72px; }
+  .character-note { gap: 8px; padding: 9px; }
+  .character-note img { width: 62px; height: 76px; }
+  .concept-tip { gap: 8px; }
+  .concept-tip > img { flex-basis: 54px; width: 54px; height: 62px; }
+  .tools-with-character { align-items: flex-start; gap: 8px; }
+  .tools-with-character > img { flex-basis: 60px; width: 60px; height: 78px; }
 }
 
 /* ============================================================
