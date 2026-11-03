@@ -127,24 +127,132 @@ document.querySelectorAll('.community-q').forEach(boton => {
   boton.addEventListener('click', () => boton.classList.toggle('active'));
 });
 
+/* ---------- Definiciones de herramientas territoriales (Parada 2) ---------- */
+const herramientasTerritoriales = {
+  context: {
+    name: 'Lectura de contexto',
+    definition: 'Proceso de reunir, contrastar e interpretar información sobre la historia, la población, las condiciones de vida, la salud, el ambiente, los actores y los recursos de un territorio. Al poner en diálogo datos y saberes de quienes lo habitan, ayuda a comprender cómo se configuran las situaciones, reconocer necesidades y capacidades, y orientar respuestas pertinentes.',
+    source: 'Ministerio de Salud y Protección Social de Colombia · Análisis de Situación de Salud (ASIS)',
+    url: 'https://www.minsalud.gov.co/salud/epidemiologia-demografia/Paginas/analisis-de-situacion-de-salud.aspx'
+  },
+  mapping: {
+    name: 'Cartografía social y participativa',
+    definition: 'Metodología colectiva en la que las personas representan y conversan sobre su territorio mediante mapas, símbolos y relatos. Permite reconocer lugares significativos, usos y ocupaciones, relaciones, recursos, saberes y situaciones desde la experiencia de la comunidad; el mapa expresa una lectura situada, no solo límites geográficos.',
+    source: 'Cartografía social participativa como metodología de investigación territorial · Perspectiva Geográfica (2023)',
+    url: 'https://www.redalyc.org/journal/7718/771882251005/html/'
+  },
+  walks: {
+    name: 'Recorridos territoriales',
+    definition: 'Caminatas realizadas junto con habitantes para observar el territorio en sus espacios cotidianos. Durante el recorrido se reconocen usos, condiciones, recursos, barreras y relaciones del lugar; las observaciones, conversaciones y registros se ponen en común para construir una comprensión contextualizada.',
+    source: 'Cartografía social participativa como metodología de investigación territorial · Perspectiva Geográfica (2023)',
+    url: 'https://www.redalyc.org/journal/7718/771882251005/html/'
+  },
+  'body-map': {
+    name: 'Cuerpo-mapa',
+    definition: 'Ejercicio participativo de cartografía corporal en el que se dibuja y representa el cuerpo como un territorio vivido. A través de imágenes, símbolos y relatos, las personas pueden expresar memorias, experiencias, cuidados y relaciones entre cuerpo y entorno. Su realización debe ser voluntaria y respetar la intimidad y los tiempos de cada participante.',
+    source: 'Colectivo Miradas Críticas del Territorio desde el Feminismo · Mapeando el cuerpo-territorio: guía metodológica (2017)',
+    url: 'https://www.accionecologica.org/mapeando-el-cuerpo-territorio-guia-metodologica-para-mujeres-que-defienden-sus-territorios/'
+  }
+};
+const overlayHerramienta = document.getElementById('toolOverlay');
+const dialogoHerramienta = document.getElementById('toolDialog');
+let focoPrevioHerramienta = null;
+
+function cerrarHerramienta() {
+  overlayHerramienta.classList.add('hidden');
+  if (focoPrevioHerramienta) focoPrevioHerramienta.focus();
+}
+
+document.querySelectorAll('[data-territory-tool]').forEach(boton => {
+  boton.addEventListener('click', () => {
+    const herramienta = herramientasTerritoriales[boton.dataset.territoryTool];
+    if (!herramienta) return;
+    focoPrevioHerramienta = boton;
+    document.getElementById('toolTitle').textContent = herramienta.name;
+    document.getElementById('toolDefinition').textContent = herramienta.definition;
+    const fuente = document.getElementById('toolSource');
+    fuente.textContent = herramienta.source;
+    fuente.href = herramienta.url;
+    overlayHerramienta.classList.remove('hidden');
+    dialogoHerramienta.focus();
+  });
+});
+
+document.getElementById('toolClose').addEventListener('click', cerrarHerramienta);
+overlayHerramienta.addEventListener('click', evento => {
+  if (evento.target === overlayHerramienta) cerrarHerramienta();
+});
+overlayHerramienta.addEventListener('keydown', evento => {
+  if (evento.key === 'Escape') {
+    evento.preventDefault();
+    cerrarHerramienta();
+    return;
+  }
+  if (evento.key !== 'Tab') return;
+  const enfocables = [...overlayHerramienta.querySelectorAll('button:not([disabled]),a[href],[tabindex]:not([tabindex="-1"])')]
+    .filter(elemento => elemento.offsetParent !== null);
+  if (!enfocables.length) return;
+  const primero = enfocables[0];
+  const ultimo = enfocables[enfocables.length - 1];
+  if (evento.shiftKey && document.activeElement === primero) {
+    evento.preventDefault();
+    ultimo.focus();
+  } else if (!evento.shiftKey && document.activeElement === ultimo) {
+    evento.preventDefault();
+    primero.focus();
+  }
+});
+
 /* ---------- Conexiones del ejercicio guiado (Parada 3) ---------- */
 const textosConexion = {
-  'c-cb': 'Comunidad ↔ Ciudad Bienestar–PSPIC: saberes comunitarios, participación, prácticas de cuidado, organización y acciones colectivas.',
-  'c-aps': 'Comunidad ↔ EBS–APS: situaciones de salud de personas y familias relacionadas con esta realidad.',
-  'c-inst': 'Comunidad ↔ institución o sector: respuesta desde las competencias responsables cuando la situación lo requiere.',
-  'aps-cb': 'EBS–APS ↔ Ciudad Bienestar–PSPIC: aportes diferentes que se complementan sin sustituirse.',
-  'cb-others': 'Ciudad Bienestar–PSPIC ↔ otros actores: acciones colectivas o intersectoriales ante condiciones identificadas.'
+  'c-cb': 'Alrededor de saberes comunitarios, participación, prácticas de cuidado, organización y acciones colectivas relacionadas con la situación.',
+  'c-aps': 'Frente a situaciones de salud identificadas en personas y familias relacionadas con esa realidad.',
+  'c-inst': 'Cuando la situación requiere una respuesta que corresponde a sus competencias.',
+  'aps-cb': 'Cuando, frente a la misma realidad, existen aportes diferentes que pueden relacionarse sin que una estrategia sustituya las funciones de la otra.',
+  'cb-others': 'Cuando la lectura de la realidad muestra condiciones que requieren acciones colectivas o la participación de otros sectores.'
 };
-const mensajeConexion = document.getElementById('connectionMessage');
-const mensajeConexionInicial = 'Activa conexiones pertinentes según la realidad territorial que se está comprendiendo.';
+const overlayConexion = document.getElementById('connectionOverlay');
+const dialogoConexion = document.getElementById('connectionDialog');
+let focoPrevioConexion = null;
+
+function cerrarConexion() {
+  overlayConexion.classList.add('hidden');
+  if (focoPrevioConexion) focoPrevioConexion.focus();
+}
 
 document.querySelectorAll('.connect-btn').forEach(boton => {
   boton.addEventListener('click', () => {
     boton.classList.toggle('active');
-    const activas = [...document.querySelectorAll('.connect-btn.active')];
-    mensajeConexion.textContent = activas.length
-      ? activas.map(b => textosConexion[b.dataset.connection]).join(' ')
-      : mensajeConexionInicial;
+    boton.setAttribute('aria-pressed', String(boton.classList.contains('active')));
+    focoPrevioConexion = boton;
+    document.getElementById('connectionTitle').textContent = boton.textContent.trim();
+    document.getElementById('connectionDefinition').textContent = textosConexion[boton.dataset.connection];
+    overlayConexion.classList.remove('hidden');
+    dialogoConexion.focus();
   });
 });
-mensajeConexion.textContent = mensajeConexionInicial;
+
+document.getElementById('connectionClose').addEventListener('click', cerrarConexion);
+overlayConexion.addEventListener('click', evento => {
+  if (evento.target === overlayConexion) cerrarConexion();
+});
+overlayConexion.addEventListener('keydown', evento => {
+  if (evento.key === 'Escape') {
+    evento.preventDefault();
+    cerrarConexion();
+    return;
+  }
+  if (evento.key !== 'Tab') return;
+  const enfocables = [...overlayConexion.querySelectorAll('button:not([disabled]),[href],input:not([disabled]),[tabindex]:not([tabindex="-1"])')]
+    .filter(elemento => elemento.offsetParent !== null);
+  if (!enfocables.length) return;
+  const primero = enfocables[0];
+  const ultimo = enfocables[enfocables.length - 1];
+  if (evento.shiftKey && document.activeElement === primero) {
+    evento.preventDefault();
+    ultimo.focus();
+  } else if (!evento.shiftKey && document.activeElement === ultimo) {
+    evento.preventDefault();
+    primero.focus();
+  }
+});

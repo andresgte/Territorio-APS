@@ -12,10 +12,8 @@
 const datosDimensiones = [
   {
     name: 'SOCIAL',
-    icon: '👨‍👩‍👧‍👦 🤝',
-    definition: 'Relaciones, familias, redes y organización que hacen parte de la vida cotidiana.',
+    definition: 'Comprende a las personas, familias y comunidades, así como los vínculos, redes de apoyo, formas de organización y relaciones que construyen en su vida cotidiana.',
     examples: ['Familias y redes de apoyo', 'Relaciones y organización comunitaria', 'Acceso y vínculos con servicios'],
-    topic: 'Familias, redes de apoyo, cuidado y encuentro.',
     questions: [
       {
         q: '¿Qué elementos sociales ayudan a comprender cómo transcurre la vida en un territorio?',
@@ -34,10 +32,8 @@ const datosDimensiones = [
   },
   {
     name: 'CULTURAL',
-    icon: '🧶 🗣️',
-    definition: 'Saberes, prácticas, memoria y significados que las comunidades construyen y comparten.',
+    definition: 'Reúne las identidades, historias, memorias, saberes, prácticas y costumbres mediante las cuales las comunidades significan el territorio y construyen formas propias de vivir y cuidar.',
     examples: ['Saberes y prácticas de cuidado', 'Memoria y significados del territorio', 'Diálogo entre generaciones'],
-    topic: 'Saberes locales, memoria y diálogo intergeneracional.',
     questions: [
       {
         q: '¿Qué permite reconocer la dimensión cultural?',
@@ -56,10 +52,8 @@ const datosDimensiones = [
   },
   {
     name: 'ECONÓMICA',
-    icon: '🌽 🧺',
-    definition: 'Trabajo, producción, ingresos, comercialización y acceso a bienes que influyen en la vida cotidiana.',
+    definition: 'Se relaciona con las formas de trabajo y producción, los ingresos, los intercambios, los mercados y los medios mediante los cuales las personas y familias sostienen su vida.',
     examples: ['Trabajo y producción', 'Ingresos y comercialización', 'Alimentación y acceso a bienes', 'Condiciones laborales y responsabilidades de cuidado'],
-    topic: 'Trabajo, producción, alimentos e ingresos.',
     questions: [
       {
         q: '¿Qué relaciones económicas pueden influir en las condiciones de vida y salud?',
@@ -79,10 +73,8 @@ const datosDimensiones = [
   },
   {
     name: 'AMBIENTAL',
-    icon: '💧 🌱',
-    definition: 'Relaciones con el agua, el suelo, la biodiversidad, la vivienda y el entorno.',
+    definition: 'Comprende las relaciones con el agua, el suelo, la biodiversidad y otros elementos de la naturaleza, así como las condiciones ambientales que favorecen o afectan la vida en el territorio.',
     examples: ['Agua, suelo y biodiversidad', 'Entorno y vivienda', 'Disponibilidad y cuidado de recursos'],
-    topic: 'Agua, suelo, biodiversidad, cultivos y vivienda.',
     questions: [
       {
         q: '¿Qué elementos ambientales se relacionan con las condiciones de vida?',
@@ -101,10 +93,8 @@ const datosDimensiones = [
   },
   {
     name: 'POLÍTICO-INSTITUCIONAL',
-    icon: '🏥 🏫',
-    definition: 'Instituciones, servicios, decisiones públicas, responsabilidades y participación en el territorio.',
+    definition: 'Comprende las relaciones entre comunidades, organizaciones e instituciones; la presencia y actuación del Estado; los servicios y las políticas públicas; los liderazgos y los espacios de participación y toma de decisiones.',
     examples: ['Instituciones, servicios y decisiones públicas', 'Políticas y responsabilidades de los actores', 'Participación y articulación'],
-    topic: 'Servicios de salud y educación, instituciones y participación.',
     questions: [
       {
         q: '¿Qué incluye esta dimensión?',
@@ -133,12 +123,42 @@ const aciertos = new Set();       // preguntas correctas
 const respuestasSeleccionadas = new Map();
 const totalPreguntas = datosDimensiones.reduce((total, dimension) => total + dimension.questions.length, 0);
 let dimensionActiva = 0;
-let videoPausado = false;
 let focoPrevioDimension = null;
 
 /* ---------- Referencias del DOM ---------- */
 const overlayDimension = document.getElementById('dimensionOverlay');
 const contenedorPreguntas = document.getElementById('dimensionQuestions');
+const overlayConcepto = document.getElementById('conceptOverlay');
+const dialogoConcepto = document.getElementById('conceptDialog');
+let focoPrevioConcepto = null;
+
+function cerrarConcepto() {
+  overlayConcepto.classList.add('hidden');
+  if (focoPrevioConcepto) focoPrevioConcepto.focus();
+}
+
+document.querySelectorAll('[data-dimension-concept]').forEach(boton => {
+  boton.addEventListener('click', () => {
+    const dimension = datosDimensiones.find(item => item.name === boton.dataset.dimensionConcept);
+    if (!dimension) return;
+    focoPrevioConcepto = boton;
+    document.getElementById('conceptTitle').textContent = `Dimensión ${dimension.name.toLowerCase()}`;
+    document.getElementById('conceptDefinition').textContent = dimension.definition;
+    overlayConcepto.classList.remove('hidden');
+    dialogoConcepto.focus();
+  });
+});
+
+document.getElementById('conceptClose').addEventListener('click', cerrarConcepto);
+overlayConcepto.addEventListener('click', evento => {
+  if (evento.target === overlayConcepto) cerrarConcepto();
+});
+overlayConcepto.addEventListener('keydown', evento => {
+  if (evento.key === 'Escape') {
+    evento.preventDefault();
+    cerrarConcepto();
+  }
+});
 
 /* ---------- Progreso visible ---------- */
 function pintarProgreso() {
@@ -160,11 +180,8 @@ function renderizarDimension(i) {
 
   document.getElementById('dimensionCount').textContent = `Dimensión ${i + 1} de ${datosDimensiones.length} · Mapetto te acompaña`;
   document.getElementById('dimensionTitle').textContent = d.name;
-  document.getElementById('dimensionIllustration').textContent = d.icon;
-  document.getElementById('dimensionIllustration').setAttribute('aria-label', `Ilustración: ${d.name.toLowerCase()}, ${d.topic}`);
   document.getElementById('dimensionDefinition').textContent = d.definition;
   document.getElementById('dimensionExamples').innerHTML = d.examples.map(x => `<li>${x}</li>`).join('');
-  document.getElementById('videoTopic').textContent = `Tema sugerido: ${d.topic}`;
 
   // Construir las preguntas (radio para una sola respuesta, checkbox para varias)
   contenedorPreguntas.innerHTML = d.questions.map((q, j) => `
@@ -328,13 +345,6 @@ contenedorPreguntas.addEventListener('change', evento => {
       'GEA: Tu respuesta cambió. Vuelve a verificarla para actualizar el progreso.';
     pintarProgreso();
   }
-});
-
-/* ---------- Miniatura de video (pausar / reanudar simulado) ---------- */
-document.getElementById('videoControl').addEventListener('click', evento => {
-  videoPausado = !videoPausado;
-  evento.currentTarget.setAttribute('aria-pressed', String(videoPausado));
-  evento.currentTarget.querySelector('span').textContent = videoPausado ? '▶' : 'Ⅱ';
 });
 
 /* ---------- Acciones del resumen final ---------- */

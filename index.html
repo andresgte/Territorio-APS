@@ -62,16 +62,16 @@
             </div>
 
             <div class="thread-row" aria-label="Cinco hebras territoriales">
-              <span class="thread social">SOCIAL</span>
-              <span class="thread cultural">CULTURAL</span>
-              <span class="thread economic">ECONÓMICA</span>
-              <span class="thread environmental">AMBIENTAL</span>
-              <span class="thread political">POLÍTICO-INSTITUCIONAL</span>
+              <button class="thread social" type="button" data-dimension-concept="SOCIAL" aria-haspopup="dialog" aria-controls="conceptOverlay">SOCIAL</button>
+              <button class="thread cultural" type="button" data-dimension-concept="CULTURAL" aria-haspopup="dialog" aria-controls="conceptOverlay">CULTURAL</button>
+              <button class="thread economic" type="button" data-dimension-concept="ECONÓMICA" aria-haspopup="dialog" aria-controls="conceptOverlay">ECONÓMICA</button>
+              <button class="thread environmental" type="button" data-dimension-concept="AMBIENTAL" aria-haspopup="dialog" aria-controls="conceptOverlay">AMBIENTAL</button>
+              <button class="thread political" type="button" data-dimension-concept="POLÍTICO-INSTITUCIONAL" aria-haspopup="dialog" aria-controls="conceptOverlay">POLÍTICO-INSTITUCIONAL</button>
             </div>
             <p style="font-size:1.125rem;margin-top:16px;font-weight:600;color:#355e50">Durante el recorrido seguiremos estas cinco hebras para descubrir cómo se relacionan en la vida cotidiana.</p>
 
             <button id="startBtn" type="button" class="primary-btn" style="margin-top:24px">
-              <i data-lucide="footprints"></i><span>Comenzar recorrido</span>
+              <i data-lucide="footprints"></i><span>Continuar recorrido</span>
             </button>
             <button id="weaveOpen" type="button" class="secondary-btn" style="margin-top:16px" aria-haspopup="dialog" aria-controls="weaveOverlay">¿Por qué hablamos de un tejido?</button>
           </article>
@@ -133,7 +133,7 @@
             <img class="territory-note-character" src="img/mapeto_piensa.svg" alt="Mapetto reflexiona sobre las relaciones que construyen el territorio">
             <div class="territory-note-copy">
               <h2 id="territory-note-title">El territorio como relación</h2>
-              <p>Algo parecido ocurre en el territorio. Las relaciones sociales, culturales, económicas, ambientales y político-institucionales no existen de manera aislada. Se encuentran y se transforman continuamente.</p>
+              <p>Las relaciones sociales, culturales, económicas, ambientales y político-institucionales no existen de manera aislada. Se encuentran y se transforman continuamente.</p>
               <p>Esas relaciones participan en la configuración de las condiciones en las que transcurre la vida y, por eso, también tienen que ver con las formas de vivir, enfermar, cuidar y construir salud.</p>
             </div>
 
@@ -176,6 +176,7 @@
 
           <!-- Detalle: Historias (Rosa y Marcela) -->
           <div id="detail-stories" class="detail hidden">
+            <button id="storiesClose" class="secondary-btn" type="button" aria-label="Cerrar historias">Cerrar historias ×</button>
             <h3 id="stories-heading">Pero compartir territorio no significa vivir las mismas condiciones</h3>
             <p style="font-size:1.125rem;font-weight:700;color:#355e50">Rosa y Marcela están en la misma plaza. ¿La viven de la misma manera? ¿Qué diferencias encuentras?</p>
             <div class="story-grid">
@@ -184,7 +185,11 @@
                      src="img/Rosa.jpg"
                      alt="Vendedoras y compradores en una plaza de mercado popular al aire libre">
                 <h3>Rosa, vendedora</h3>
-                <p style="font-size:1.125rem;line-height:1.3">Rosa tiene 38 años, es madre cabeza de familia y vendedora. Su día comienza a las 4:00 a. m. Tiene ingresos variables, jornadas extensas y responsabilidades de cuidado que suele asumir con poco tiempo para descansar.</p>
+                <p style="font-size:1.125rem;line-height:1.3">Rosa tiene 38 años, es madre cabeza de familia y trabaja como vendedora en la plaza de mercado.
+Su día comienza a las 4:00 de la mañana. Prepara los alimentos, organiza lo necesario para sus hijos y sale temprano hacia la plaza para preparar su puesto y comenzar la jornada.
+Algunos días cuenta con una familiar que le ayuda con el cuidado de sus hijos; cuando no tiene ese apoyo, debe buscar otras alternativas y, en algunas ocasiones, ha tenido que llevarlos con ella a su puesto de trabajo.
+Sus ingresos dependen de las ventas diaria y sus jornadas pueden ser extensas. Cuando regresa a casa continúa con las labores domésticas y el cuidado de sus hijos. El tiempo disponible para descansar y dedicarse a su propio cuidado suele ser limitado
+</p>
               </article>
               <article class="story marcela">
                 <img style="width:100%;height:14rem;object-fit:cover;border-radius:12px;margin-bottom:16px" loading="lazy"
@@ -192,11 +197,16 @@
                      src="img/Marcela.jpg"
                      alt="Plaza de mercado latinoamericana concurrida, con puestos de alimentos y productos frescos">
                 <h3>Marcela, compradora</h3>
-                <p style="font-size:1.125rem;line-height:1.3">Marcela tiene 40 años, vive con su pareja e hijos y cuenta con empleo estable, ingreso permanente y horarios definidos. Comparte las responsabilidades de cuidado y visita la plaza principalmente para comprar alimentos.</p>
+                <p style="font-size:1.125rem;line-height:1.3">Marcela tiene 40 años, vive con su pareja y sus hijos y tiene un empleo estable fuera de la plaza.
+Cuenta con un ingreso permanente y horarios de trabajo definidos. En su hogar comparte con su pareja las responsabilidades relacionadas con el cuidado de sus hijos y las tareas domésticas.
+Marcela visita la plaza principalmente para comprar alimentos para su familia. Generalmente puede organizar esta actividad de acuerdo con sus horarios y compartir otras responsabilidades familiares con su pareja.
+</p>
               </article>
             </div>
-            <p style="margin-top:16px;font-size:1.125rem;font-weight:700;color:#355e50">Las maneras de vivir, enfermar, cuidar y construir salud no dependen únicamente de decisiones individuales: se relacionan con trabajo, recursos, apoyos y distribución de las responsabilidades de cuidado.</p>
-            <p style="margin-top:12px;font-size:1rem;font-weight:600;color:#294c42">Las diferencias corporales forman parte de la diversidad humana y no determinan capacidades ni roles.</p>
+            <p style="margin-top:16px;font-size:1.125rem;font-weight:700;color:#355e50">Aunque Rosa y Marcela habiten el mismo territorio,
+               no necesariamente tienen las mismas posibilidades para descansar, cuidar de sí mismas y de sus 
+              familias, acceder a recursos o responder a las situaciones que afectan su vida y su salud.</p>
+            <p style="margin-top:12px;font-size:1rem;font-weight:600;color:#294c42">Leer el territorio también significa aprender a reconocer estas diferencias y preguntarnos qué relaciones y condiciones sociales, económicas, culturales y políticas están detrás de ellas.</p>
             
           </div>
 
@@ -204,7 +214,10 @@
           <div id="detail-route" class="detail hidden">
             <img class="dynamics-image" src="img/dinamica_urbanoRural.jpg"
                  alt="La vereda y la ciudad se conectan por caminos donde circulan personas, alimentos, productos, trabajo, servicios, saberes, prácticas y relaciones.">
-          </div>
+           <p style="margin-top:16px;font-size:1.125rem;font-weight:700;color:#355e50">Estas conexiones también nos ayudan a comprender por qué las condiciones de vida no se explican mirando cada lugar de manera aislada. Las distancias, la movilidad, el trabajo, la producción y las posibilidades 
+            de acceso forman parte de las relaciones territoriales que atraviesan la vida y la salud.</p>
+           
+                </div>
 
           <div class="learning-grid">
             <article class="concept-card pista">
@@ -212,7 +225,7 @@
               <div class="concept-tip">
                 <img src="img/mapeto_encuentra.svg" alt="Mapetto identifica conexiones entre lugares del territorio">
                 <div>
-                  <h3>Territorio usado, territorialidad y relaciones rural–urbanas</h3>
+                 
                   <p>El territorio cobra sentido a partir de sus usos, prácticas y relaciones. Puede ser vivido y significado de maneras diferentes por quienes lo habitan, usan o transitan, y se construye también mediante conexiones permanentes entre lo rural y lo urbano.</p>
                 </div>
               </div>
@@ -243,7 +256,8 @@
               <p class="question" data-template-id="stop2-question">¿Qué relaciones y condiciones territoriales participan en las maneras de vivir, enfermar, cuidar y construir salud, y cómo podemos conocerlas junto con las comunidades?</p>
            <div class="character-note mapetto-note">
             <img src="img/mapeto_piensa.svg" alt="Mapetto reflexiona sobre las relaciones entre las dimensiones del territorio">
-            <p><strong>Mapetto piensa:</strong> una misma realidad puede involucrar varias dimensiones. Explóralas y relaciona lo que encuentres.</p>
+            <p><strong>Mapetto piensa:</strong> La Atención Primaria en Salud (APS), a través de los Equipos Básicos en Salud, y el PSPIC, a través de la estrategia Ciudad Bienestar, desarrollan acciones en el territorio desde competencias, alcances, enfoques y formas de actuación diferenciadas. Pero es importante reconocer el territorio como un entorno dinamico el cual se debe comprender, incorporar y sentir.
+</p>
           </div> </div>
             <button type="button" class="audio-btn" data-speech="stop2-question" data-template-id="stop2-audio">
               <i data-lucide="volume-2"></i><span>Escuchar</span>
@@ -258,12 +272,6 @@
 
           <div class="scene">
             <div class="dimension-layout">
-              <div class="water-core">
-                <div>
-                  <strong>FUENTE DE AGUA</strong>
-                  <span style="display:block;margin-top:8px;font-size:1.125rem;font-weight:600">Una situación territorial puede comprenderse desde varias dimensiones conectadas.</span>
-                </div>
-              </div>
               <div class="dimensions">
                 <article class="dim environmental-d">
                   <h3>AMBIENTAL</h3><p>Agua, suelo, biodiversidad y entorno.</p>
@@ -282,13 +290,7 @@
                 </article>
               </div>
             </div>
-          </div>
-
-          <article style="margin-top:20px;padding:20px;border-radius:16px;background:#edf4df">
-            <h2 style="font-weight:800;font-size:1.5rem;color:#386341">CONDICIONES DE VIDA</h2>
-            <p style="font-size:1.25rem;font-weight:600;color:#294c42">Vivir · trabajar · alimentarse · movilizarse · cuidar · acceder a bienes y servicios</p>
-            <p style="margin-top:8px;font-weight:800;font-size:1.25rem;color:#23647b">SALUD · ENFERMEDAD · CUIDADO</p>
-          </article>
+          </div>      
 
           <div class="dual-view" style="margin-top:20px">
             <article class="view-card problem">
@@ -302,6 +304,10 @@
           </div>
 
           <article style="margin-top:20px;padding:24px;border-radius:16px;background:#f7f1df">
+             <div class="character-note gea-note">
+              <img src="img/mapeto_herramienta.svg" alt="Mapetto reflexiona antes de interpretar lo que observa">
+              <p><strong>Antes de interpretar:</strong> construimos la lectura territorial junto con quienes conocen y habitan el lugar.</p>
+            </div>
             <h2 style="font-weight:700;font-size:1.6rem;text-align:center">¿Cómo leemos el territorio?</h2>
             <div class="action-wheel">
               <span class="action">OBSERVAMOS</span><span class="action">PREGUNTAMOS</span>
@@ -309,17 +315,14 @@
               <span class="action">RELACIONAMOS</span><span class="action">INTERPRETAMOS</span>
             </div>
             <p style="font-size:1.125rem;text-align:center;line-height:1.3">No llegamos con todas las respuestas: construimos la lectura territorial con las personas y comunidades, relacionando conocimientos, experiencias y formas de comprender lo que ocurre.</p>
-            <div class="character-note gea-note">
-              <img src="img/mapeto_piensa.svg" alt="Mapetto reflexiona antes de interpretar lo que observa">
-              <p><strong>Antes de interpretar, escucha:</strong> construimos la lectura territorial junto con quienes conocen y habitan el lugar.</p>
-            </div>
+           
             <div class="tools-with-character">
-              <img src="img/mapeto_herramienta.svg" alt="Mapetto señala herramientas para leer el territorio">
+            
               <div class="tools" style="margin-top:16px">
-                <span class="tool">Lectura de contexto</span>
-                <span class="tool">Cartografía social y participativa</span>
-                <span class="tool">Recorridos territoriales</span>
-                <span class="tool">Cuerpo-mapa</span>
+                <button class="tool" type="button" data-territory-tool="context" aria-haspopup="dialog" aria-controls="toolOverlay">Lectura de contexto</button>
+                <button class="tool" type="button" data-territory-tool="mapping" aria-haspopup="dialog" aria-controls="toolOverlay">Cartografía social y participativa</button>
+                <button class="tool" type="button" data-territory-tool="walks" aria-haspopup="dialog" aria-controls="toolOverlay">Recorridos territoriales</button>
+                <button class="tool" type="button" data-territory-tool="body-map" aria-haspopup="dialog" aria-controls="toolOverlay">Cuerpo-mapa</button>
               </div>
             </div>
           </article>
@@ -329,14 +332,19 @@
               <div class="eyebrow" style="color:#23647b">PISTA CONCEPTUAL</div>
               <div class="concept-tip">
                 <img src="img/gea_piensa.svg" alt="GEA invita a preguntarse cómo se relacionan las dimensiones territoriales">
-                <p>Las dimensiones territoriales no funcionan de manera aislada ni jerárquica: se encuentran, se relacionan y configuran las condiciones en que transcurre la vida.</p>
+                <p>Acercarse a las personas y comunidades que lo habitan, observar, 
+                  preguntar y escuchar cómo viven e interpretan sus realidades, reconocer sus conocimientos y poner en diálogo esas voces con aquello
+                   que se observa.
+Así, la lectura del territorio se construye.
+</p>
               </div>
             </article>
             <article class="concept-card idea">
               <div class="eyebrow" style="color:#9c5b17">IDEA PARA RECORDAR</div>
               <div class="concept-tip idea-tip">
                 <img src="img/gea_reflexion.svg" alt="GEA reflexiona sobre las condiciones de vida y las capacidades comunitarias">
-                <p>Comprender el territorio implica reconocer desigualdades, pero también saberes, prácticas, redes y capacidades presentes en las comunidades.</p>
+                <p>Reconocer no solo aquello que puede afectar la vida y la salud, sino también lo que existe en el territorio para cuidar la vida y afrontar o transformar esas situaciones.
+</p>
               </div>
             </article>
           </div>
@@ -408,16 +416,15 @@
             </div>
             <div class="step">
               <h3>3. ¿Dónde pueden encontrarse esos aportes?</h3>
-              <p style="font-size:1.125rem">Activa solamente las conexiones que resulten pertinentes frente a esta realidad compartida.</p>
+              <p style="font-size:1.125rem">Reconoce las conexiones que puedan facilitar la articulación.</p>
             </div>
             <div class="connection-controls">
-              <button class="connect-btn" type="button" data-connection="c-cb">Comunidad ↔ Ciudad Bienestar–PSPIC</button>
-              <button class="connect-btn" type="button" data-connection="c-aps">Comunidad ↔ EBS–APS</button>
-              <button class="connect-btn" type="button" data-connection="c-inst">Comunidad ↔ institución o sector</button>
-              <button class="connect-btn" type="button" data-connection="aps-cb">EBS–APS ↔ Ciudad Bienestar–PSPIC</button>
-              <button class="connect-btn" type="button" data-connection="cb-others">Ciudad Bienestar–PSPIC ↔ otros actores</button>
+              <button class="connect-btn" type="button" data-connection="c-cb" aria-pressed="false" aria-haspopup="dialog" aria-controls="connectionOverlay">Comunidad ↔ Ciudad Bienestar–PSPIC</button>
+              <button class="connect-btn" type="button" data-connection="c-aps" aria-pressed="false" aria-haspopup="dialog" aria-controls="connectionOverlay">Comunidad ↔ EBS–APS</button>
+              <button class="connect-btn" type="button" data-connection="c-inst" aria-pressed="false" aria-haspopup="dialog" aria-controls="connectionOverlay">Comunidad ↔ institución o sector</button>
+              <button class="connect-btn" type="button" data-connection="aps-cb" aria-pressed="false" aria-haspopup="dialog" aria-controls="connectionOverlay">EBS–APS ↔ Ciudad Bienestar–PSPIC</button>
+              <button class="connect-btn" type="button" data-connection="cb-others" aria-pressed="false" aria-haspopup="dialog" aria-controls="connectionOverlay">Ciudad Bienestar–PSPIC ↔ otros actores</button>
             </div>
-            <div id="connectionMessage" class="connection-message" aria-live="polite"></div>
             <div class="character-note mapetto-note">
               <img src="img/mapeto_solucion.svg" alt="Mapetto propone una ruta para conectar actores y respuestas">
               <p><strong>Mapetto propone:</strong> relaciona los aportes que respondan a la realidad identificada, respetando las capacidades y responsabilidades de cada actor.</p>
@@ -450,12 +457,18 @@
           </div>
           <div class="learning-grid" style="text-align:left;margin-top:28px">
             <article class="concept-card idea">
-              <h2 style="font-weight:700;font-size:1.5rem;color:#3f7850">GEA</h2>
-              <p style="font-size:1.125rem;line-height:1.3">Nuestro recorrido comenzó observando lugares y terminó descubriendo relaciones. Aprendimos que la salud se construye en el territorio y que las formas de vivir, trabajar, alimentarse, movilizarse, cuidar, organizarse y relacionarse con la naturaleza, las instituciones y otras personas hacen parte de los procesos de salud, enfermedad y cuidado.</p>
+              <img class="closing-character gea" src="img/gea_reflexion.svg" alt="GEA acompaña la reflexión final del recorrido">
+              <div class="closing-card-copy">
+                <h2>GEA</h2>
+                <p>Nuestro recorrido comenzó observando lugares y terminó descubriendo relaciones. Aprendimos que la salud se construye en el territorio y que las formas de vivir, trabajar, alimentarse, movilizarse, cuidar, organizarse y relacionarse con la naturaleza, las instituciones y otras personas hacen parte de los procesos de salud, enfermedad y cuidado.</p>
+              </div>
             </article>
             <article class="concept-card pista">
-              <h2 style="font-weight:700;font-size:1.5rem;color:#23647b">MAPETTO</h2>
-              <p style="font-size:1.125rem;line-height:1.3">Reconocimos el territorio, aprendimos a comprenderlo y leerlo, e identificamos posibles espacios de encuentro entre comunidades, APS, Ciudad Bienestar–PSPIC y otros actores. Los territorios cambian, las relaciones también y, por eso, siempre tendremos algo nuevo que observar, escuchar y comprender.</p>
+              <img class="closing-character mapetto" src="img/mapeto_solucion.svg" alt="Mapetto acompaña la reflexión final del recorrido">
+              <div class="closing-card-copy">
+                <h2>MAPETTO</h2>
+                <p>Reconocimos el territorio, aprendimos a comprenderlo y leerlo, e identificamos posibles espacios de encuentro entre comunidades, APS, Ciudad Bienestar–PSPIC y otros actores. Los territorios cambian, las relaciones también y, por eso, siempre tendremos algo nuevo que observar, escuchar y comprender.</p>
+              </div>
             </article>
           </div>
           <div class="footer-actions" style="justify-content:center">
@@ -478,18 +491,9 @@
             </div>
             <button id="modalClose" class="modal-close" type="button" aria-label="Cerrar ventana">Cerrar ×</button>
           </div>
-          <div id="dimensionIllustration" class="illustration" role="img" aria-label="Ilustración educativa de la dimensión"></div>
           <p id="dimensionDefinition" style="font-size:1.125rem"></p>
           <h3>¿Qué podemos observar?</h3>
           <ul id="dimensionExamples" style="list-style:disc;padding-left:24px"></ul>
-          <h3>Video de apoyo</h3>
-          <button id="videoControl" class="video-placeholder" type="button" aria-pressed="false">
-            <span aria-hidden="true">▶</span>
-            <span><strong>Video de apoyo · preparado para insertar</strong><br>
-              <span id="videoTopic"></span><br>
-              <small>Sin video vinculado. Pulsa para pausar o reanudar la miniatura.</small>
-            </span>
-          </button>
           <div id="dimensionQuestions"></div>
           <p id="modalFeedback" class="feedback" aria-live="polite"></p>
           <div class="modal-actions">
@@ -497,6 +501,40 @@
             <button id="previousDimension" class="modal-nav" type="button">← Anterior</button>
             <button id="nextDimension" class="modal-nav" type="button">Siguiente →</button>
           </div>
+        </section>
+      </div>
+
+      <!-- ===================== MODAL: CONCEPTOS DE LAS DIMENSIONES ===================== -->
+      <div id="conceptOverlay" class="dimension-overlay hidden" role="presentation">
+        <section id="conceptDialog" class="dimension-modal concept-modal" role="dialog" aria-modal="true" aria-labelledby="conceptTitle" tabindex="-1">
+          <div class="modal-top">
+            <h2 id="conceptTitle" class="section-title"></h2>
+            <button id="conceptClose" class="modal-close" type="button" aria-label="Cerrar concepto">Cerrar ×</button>
+          </div>
+          <p id="conceptDefinition" class="concept-definition"></p>
+        </section>
+      </div>
+
+      <!-- ===================== MODAL: RELACIONES ENTRE ACTORES ===================== -->
+      <div id="connectionOverlay" class="dimension-overlay hidden" role="presentation">
+        <section id="connectionDialog" class="dimension-modal concept-modal connection-modal" role="dialog" aria-modal="true" aria-labelledby="connectionTitle" tabindex="-1">
+          <div class="modal-top">
+            <h2 id="connectionTitle" class="section-title"></h2>
+            <button id="connectionClose" class="modal-close" type="button" aria-label="Cerrar explicación">Cerrar ×</button>
+          </div>
+          <p id="connectionDefinition" class="concept-definition"></p>
+        </section>
+      </div>
+
+      <!-- ===================== MODAL: HERRAMIENTAS DE LECTURA TERRITORIAL ===================== -->
+      <div id="toolOverlay" class="dimension-overlay hidden" role="presentation">
+        <section id="toolDialog" class="dimension-modal concept-modal" role="dialog" aria-modal="true" aria-labelledby="toolTitle" tabindex="-1">
+          <div class="modal-top">
+            <h2 id="toolTitle" class="section-title"></h2>
+            <button id="toolClose" class="modal-close" type="button" aria-label="Cerrar definición">Cerrar ×</button>
+          </div>
+          <p id="toolDefinition" class="concept-definition"></p>
+          <p class="tool-source"><strong>Fuente para profundizar:</strong> <a id="toolSource" target="_blank" rel="noopener noreferrer"></a></p>
         </section>
       </div>
 

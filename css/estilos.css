@@ -271,11 +271,21 @@ button:focus-visible { outline: 4px solid #f3c45c; outline-offset: 3px; }
   object-fit: contain;
   mix-blend-mode: multiply;
 }
-.tools-with-character .tools { flex: 1; }
+.tools-with-character .tools { flex: 1; justify-content: center; }
 
 /* Hebras temáticas (etiquetas de colores) */
 .thread-row { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 24px; }
-.thread { padding: 7px 12px; border-radius: 999px; color: #fff; font-weight: 800; font-size: .9rem; }
+.thread {
+  border: 0;
+  padding: 7px 12px;
+  border-radius: 999px;
+  color: #fff;
+  font-weight: 800;
+  font-size: .9rem;
+  cursor: pointer;
+}
+.thread:hover { filter: brightness(.9); }
+.thread:focus-visible { outline: 3px solid #183331; outline-offset: 3px; }
 .social        { background: #bd5a45; }
 .cultural      { background: #74415e; }
 .economic      { background: #c68134; }
@@ -303,7 +313,7 @@ button:focus-visible { outline: 4px solid #f3c45c; outline-offset: 3px; }
   font-weight: 800;
 }
 .stop-item strong { font-size: 1.15rem; }
-.stop-item span { display: block; color: #49665f; }
+.stop-item > div > span { display: block; color: #49665f; }
 
 /* ---------- 6. Paradas del recorrido ---------- */
 .stop-head {
@@ -484,6 +494,14 @@ button:focus-visible { outline: 4px solid #f3c45c; outline-offset: 3px; }
   background: #fffdf7;
   border: 1px solid #cbd6bd;
 }
+#finish .concept-card { display: flex; align-items: center; gap: 16px; }
+#finish .closing-character { flex: 0 0 88px; width: 88px; height: 128px; object-fit: contain; mix-blend-mode: multiply; }
+#finish .closing-character.mapetto { mix-blend-mode: normal; }
+#finish .closing-card-copy { min-width: 0; }
+#finish .closing-card-copy h2 { margin: 0 0 12px; font-size: 1.5rem; }
+#finish .closing-card-copy p { margin: 0; font-size: 1.125rem; line-height: 1.3; }
+#finish .concept-card.idea .closing-card-copy h2 { color: #3f7850; }
+#finish .concept-card.pista .closing-card-copy h2 { color: #23647b; }
 .concept-card h3 { font-family: Fraunces, serif; font-size: 1.45rem; }
 .concept-card.pista { border-top: 6px solid #3f8eab; }
 .concept-card.idea  { border-top: 6px solid #c68134; }
@@ -546,32 +564,19 @@ button:focus-visible { outline: 4px solid #f3c45c; outline-offset: 3px; }
 }
 
 /* ---------- 7. Dimensiones del territorio ---------- */
-.dimension-layout { display: grid; grid-template-columns: 1fr 1.05fr; gap: 22px; align-items: center; }
-.water-core {
-  margin: auto;
-  width: min(290px, 100%);
-  aspect-ratio: 1;
-  border-radius: 50%;
-  display: grid;
-  place-items: center;
-  text-align: center;
-  padding: 30px;
-  background: radial-gradient(circle at 35% 30%, #c3eff0, #3f8eab);
-  color: #fff;
-  border: 10px solid #dceedd;
-  box-shadow: 0 0 0 10px rgba(63, 142, 171, .18);
-}
-.water-core strong { font-family: Fraunces, serif; font-size: 2rem; }
-
-.dimensions { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.dimension-layout { display: block; }
+.dimensions { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 12px; }
 .dim { padding: 15px; border-radius: 16px; color: #fff; min-height: 104px; cursor: pointer; transition: transform .2s, box-shadow .2s; }
+.dim { grid-column: span 2; }
 .dim h3 { font-size: 1.2rem; font-weight: 800; }
 .dim p { line-height: 1.15; }
 .dim.social-d        { background: #bd5a45; }
 .dim.cultural-d      { background: #74415e; }
 .dim.economic-d      { background: #c68134; }
 .dim.environmental-d { background: #3f7850; }
-.dim.political-d     { background: #3f8eab; grid-column: span 2; }
+.dim.political-d     { background: #3f8eab; }
+.dim:nth-child(4) { grid-column: 2 / span 2; }
+.dim:nth-child(5) { grid-column: 4 / span 2; }
 .dim:hover,
 .dim:focus-visible {
   transform: translateY(-3px);
@@ -594,7 +599,19 @@ button:focus-visible { outline: 4px solid #f3c45c; outline-offset: 3px; }
 .action-wheel { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin: 22px 0; }
 .action { padding: 11px 15px; border-radius: 999px; background: #315f4a; color: #fff; font-weight: 800; }
 .tools { display: flex; gap: 10px; flex-wrap: wrap; }
-.tool { padding: 12px 14px; border-radius: 14px; background: #fffdf7; border: 1px solid #bbceb9; font-weight: 700; }
+.tool {
+  padding: 12px 14px;
+  border-radius: 14px;
+  background: #fffdf7;
+  border: 1px solid #bbceb9;
+  color: #244b40;
+  font: inherit;
+  font-weight: 700;
+  text-align: left;
+  cursor: pointer;
+}
+.tool:hover { background: #e7f1e2; }
+.tool:focus-visible { outline: 3px solid #183331; outline-offset: 3px; }
 
 /* ---------- 8. Articulación ---------- */
 .actor-map {
@@ -640,7 +657,7 @@ button:focus-visible { outline: 4px solid #f3c45c; outline-offset: 3px; }
   cursor: pointer;
 }
 .connect-btn.active { background: #315f4a; color: #fff; }
-.connection-message { margin-top: 15px; padding: 15px; border-radius: 14px; background: #e9f2e5; min-height: 58px; font-weight: 600; }
+.connect-btn:focus-visible { outline: 3px solid #183331; outline-offset: 3px; }
 
 /* Preguntas a la comunidad */
 .community-questions { display: flex; flex-wrap: wrap; gap: 9px; margin-top: 14px; }
@@ -727,25 +744,23 @@ button:focus-visible { outline: 4px solid #f3c45c; outline-offset: 3px; }
   color: #183331;
 }
 .dimension-modal:focus { outline: 4px solid #f3c45c; }
+.concept-modal { width: min(620px, 100%); }
+.concept-modal .modal-top { align-items: flex-start; }
+.concept-modal .modal-top h2 { flex: 1; min-width: 0; font-size: clamp(1.5rem, 3.2vw, 2rem); line-height: 1.12; }
+.concept-modal .modal-top .modal-close { flex: 0 0 auto; white-space: nowrap; padding: 8px 12px; }
+.connection-modal { position: relative; }
+.connection-modal .modal-top { padding-right: 88px; }
+.connection-modal .modal-top h2 { font-size: clamp(1.35rem, 2.6vw, 1.7rem); line-height: 1.15; }
+.connection-modal .modal-top .modal-close { position: absolute; top: 16px; right: 16px; }
+.concept-definition { margin: 20px 0 4px; font-size: 1.2rem; line-height: 1.55; }
+.tool-source { margin: 20px 0 0; font-size: .95rem; line-height: 1.45; }
+.tool-source a { color: #23647b; font-weight: 700; }
 .modal-top { display: flex; justify-content: space-between; gap: 12px; align-items: center; }
 .modal-close,
 .modal-nav,
-.answer-button,
-.video-placeholder { border: 0; border-radius: 12px; padding: 11px 14px; font: inherit; font-weight: 800; cursor: pointer; }
+.answer-button { border: 0; border-radius: 12px; padding: 11px 14px; font: inherit; font-weight: 800; cursor: pointer; }
 .modal-close,
 .modal-nav { background: #315f4a; color: white; }
-.illustration {
-  display: grid;
-  place-items: center;
-  min-height: 130px;
-  margin: 14px 0;
-  border-radius: 18px;
-  background: linear-gradient(135deg, #d8eddf, #c3e4e7);
-  font-size: 3rem;
-  letter-spacing: .18em;
-}
-.video-placeholder { width: 100%; min-height: 128px; background: #183331; color: white; text-align: left; display: flex; align-items: center; gap: 14px; }
-.video-placeholder span:first-child { font-size: 2rem; }
 .question-box { padding: 14px; margin: 12px 0; background: #f2f4e8; border-radius: 14px; }
 .question-box fieldset { border: 0; padding: 0; margin: 0; }
 .question-box legend { font-weight: 800; margin-bottom: 8px; }
@@ -771,6 +786,11 @@ button:focus-visible { outline: 4px solid #f3c45c; outline-offset: 3px; }
   .actor-map { grid-template-columns: 1fr 1fr; }
   .community { grid-column: span 2; grid-row: auto; }
   .aps, .cb, .org, .inst { grid-column: auto; grid-row: auto; }
+  .dimensions { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .dim { grid-column: auto; }
+  .dim:nth-child(4),
+  .dim:nth-child(5) { grid-column: auto; }
+  .dim.political-d { grid-column: span 2; }
   .connection-controls { grid-template-columns: 1fr; }
   .topbar-inner { padding: 12px 15px; }
   .route-nav { margin-top: 10px; }
@@ -783,6 +803,8 @@ button:focus-visible { outline: 4px solid #f3c45c; outline-offset: 3px; }
   .character-note img { width: 62px; height: 76px; }
   .concept-tip { gap: 8px; }
   .concept-tip > img { flex-basis: 54px; width: 54px; height: 62px; }
+  #finish .closing-character { flex-basis: 64px; width: 64px; height: 100px; }
+  #finish .concept-card { gap: 10px; padding: 16px; }
   .tools-with-character { align-items: flex-start; gap: 8px; }
   .tools-with-character > img { flex-basis: 60px; width: 60px; height: 78px; }
 }
