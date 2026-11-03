@@ -141,6 +141,7 @@ document.querySelectorAll('[data-dimension-concept]').forEach(boton => {
   boton.addEventListener('click', () => {
     const dimension = datosDimensiones.find(item => item.name === boton.dataset.dimensionConcept);
     if (!dimension) return;
+    boton.dataset.reviewed = 'true';
     focoPrevioConcepto = boton;
     document.getElementById('conceptTitle').textContent = `Dimensión ${dimension.name.toLowerCase()}`;
     document.getElementById('conceptDefinition').textContent = dimension.definition;
@@ -367,3 +368,7 @@ document.getElementById('reviewDimensions').addEventListener('click', () => {
 
 // Pintar el progreso inicial al cargar
 pintarProgreso();
+window.recorrido.obtenerProgresoPreguntas = () => ({
+  respondidas: respondidas.size,
+  total: totalPreguntas
+});

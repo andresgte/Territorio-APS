@@ -70,6 +70,7 @@
             </div>
             <p style="font-size:1.125rem;margin-top:16px;font-weight:600;color:#355e50">Durante el recorrido seguiremos estas cinco hebras para descubrir cómo se relacionan en la vida cotidiana.</p>
 
+            <p id="homeValidation" class="navigation-feedback" role="status" aria-live="polite" tabindex="-1" hidden></p>
             <button id="startBtn" type="button" class="primary-btn" style="margin-top:24px">
               <i data-lucide="footprints"></i><span>Continuar recorrido</span>
             </button>
@@ -81,20 +82,12 @@
               <img class="guide-character" src="img/mapeto_solucion.svg" alt="Mapetto, personaje guía del recorrido territorial">
               <h2>MAPETTO</h2>
               <p>¡Hola! Soy Mapetto y seré tu guía. Caminaremos por un territorio donde encontraremos lugares, personas, familias, comunidades, actividades, organizaciones e instituciones; observaremos qué ocurre allí y qué relaciones hacen parte de la vida cotidiana.</p>
-              <button type="button" class="audio-btn" style="margin-top:8px" data-speech="mapetto-welcome-text" data-template-id="mapetto-audio">
-                <i data-lucide="volume-2"></i><span>Escuchar</span>
-              </button>
-              <span data-template-id="mapetto-welcome-text" hidden>¡Hola! Soy Mapetto y seré tu guía. Caminaremos por un territorio donde encontraremos lugares, personas, familias, comunidades, actividades, organizaciones e instituciones; observaremos qué ocurre allí y qué relaciones hacen parte de la vida cotidiana.</span>
             </article>
 
             <article class="paper guide gea">
               <img class="guide-character" src="img/gea_bienvenida.svg" alt="GEA, personaje que invita a observar las relaciones del territorio">
               <h2>GEA</h2>
               <p>Te acompañaré a mirar más allá de lo que se observa a simple vista. Las maneras de habitar, trabajar, producir, alimentarse, desplazarse, cuidar, organizarse y acceder a bienes y servicios forman parte de las condiciones de vida, salud, enfermedad y cuidado.</p>
-              <button type="button" class="audio-btn" style="margin-top:8px" data-speech="gea-welcome-text" data-template-id="gea-audio">
-                <i data-lucide="volume-2"></i><span>Escuchar</span>
-              </button>
-              <span data-template-id="gea-welcome-text" hidden>Te acompañaré a mirar más allá de lo que se observa a simple vista. Las maneras de habitar, trabajar, producir, alimentarse, desplazarse, cuidar, organizarse y acceder a bienes y servicios forman parte de las condiciones de vida, salud, enfermedad y cuidado.</span>
             </article>
 
             <article class="paper" style="padding:20px">
@@ -122,11 +115,8 @@
             <div>
               <div class="eyebrow">Parada 1</div>
               <h1 id="stop1-title" class="section-title">Reconocer el territorio</h1>
-              <p class="question" data-template-id="stop1-question">¿Qué hace que un espacio se convierta en territorio y qué nos permite conocer sobre las condiciones en las que transcurre la vida?</p>
+              <p class="question">¿Qué hace que un espacio se convierta en territorio y qué nos permite conocer sobre las condiciones en las que transcurre la vida?</p>
             </div>
-            <button type="button" class="audio-btn" data-speech="stop1-question" data-template-id="stop1-audio">
-              <i data-lucide="volume-2"></i><span>Escuchar</span>
-            </button>
           </div>
 
            <aside class="territory-note" aria-labelledby="territory-note-title">
@@ -241,6 +231,7 @@ Marcela visita la plaza principalmente para comprar alimentos para su familia. G
 
           <div class="footer-actions">
             <button class="secondary-btn back-home" type="button">Volver al inicio</button>
+            <p id="stop1Validation" class="navigation-feedback" role="status" aria-live="polite" tabindex="-1" hidden></p>
             <button class="primary-btn next-stop" data-next="stop2" type="button">Continuar</button>
           </div>
         </div>
@@ -253,15 +244,12 @@ Marcela visita la plaza principalmente para comprar alimentos para su familia. G
             <div>
               <div class="eyebrow">Parada 2</div>
               <h1 id="stop2-title" class="section-title">Comprender y leer el territorio</h1>
-              <p class="question" data-template-id="stop2-question">¿Qué relaciones y condiciones territoriales participan en las maneras de vivir, enfermar, cuidar y construir salud, y cómo podemos conocerlas junto con las comunidades?</p>
+              <p class="question">¿Qué relaciones y condiciones territoriales participan en las maneras de vivir, enfermar, cuidar y construir salud, y cómo podemos conocerlas junto con las comunidades?</p>
            <div class="character-note mapetto-note">
             <img src="img/mapeto_piensa.svg" alt="Mapetto reflexiona sobre las relaciones entre las dimensiones del territorio">
             <p><strong>Mapetto piensa:</strong> La Atención Primaria en Salud (APS), a través de los Equipos Básicos en Salud, y el PSPIC, a través de la estrategia Ciudad Bienestar, desarrollan acciones en el territorio desde competencias, alcances, enfoques y formas de actuación diferenciadas. Pero es importante reconocer el territorio como un entorno dinamico el cual se debe comprender, incorporar y sentir.
 </p>
           </div> </div>
-            <button type="button" class="audio-btn" data-speech="stop2-question" data-template-id="stop2-audio">
-              <i data-lucide="volume-2"></i><span>Escuchar</span>
-            </button>
           </div>
 
           <div id="dimensionProgress" class="dimension-progress" aria-live="polite" tabindex="-1">
@@ -351,6 +339,7 @@ Así, la lectura del territorio se construye.
 
           <div class="footer-actions">
             <button class="secondary-btn route-return" data-return="stop1" type="button">Volver a Reconocer</button>
+            <p id="stop2Validation" class="navigation-feedback" role="status" aria-live="polite" tabindex="-1" hidden></p>
             <button class="primary-btn next-stop" data-next="stop3" type="button">Continuar</button>
           </div>
         </div>
@@ -363,11 +352,8 @@ Así, la lectura del territorio se construye.
             <div>
               <div class="eyebrow">Parada 3</div>
               <h1 id="stop3-title" class="section-title">Articular el territorio como espacio de encuentro</h1>
-              <p class="question" data-template-id="stop3-question">¿Cómo pueden encontrarse comunidades, actores, sectores y estrategias diferentes frente a las realidades de vida, salud, enfermedad y cuidado presentes en el territorio?</p>
+              <p class="question">¿Cómo pueden encontrarse comunidades, actores, sectores y estrategias diferentes frente a las realidades de vida, salud, enfermedad y cuidado presentes en el territorio?</p>
             </div>
-            <button type="button" class="audio-btn" data-speech="stop3-question" data-template-id="stop3-audio">
-              <i data-lucide="volume-2"></i><span>Escuchar</span>
-            </button>
           </div>
 
           <div class="scene">
@@ -433,6 +419,7 @@ Así, la lectura del territorio se construye.
 
           <div class="footer-actions">
             <button class="secondary-btn route-return" data-return="stop2" type="button">Volver a Comprender y leer</button>
+            <p id="stop3Validation" class="navigation-feedback" role="status" aria-live="polite" tabindex="-1" hidden></p>
             <button class="primary-btn" id="finishBtn" type="button">Ver cierre del recorrido</button>
           </div>
         </div>
@@ -459,14 +446,14 @@ Así, la lectura del territorio se construye.
             <article class="concept-card idea">
               <img class="closing-character gea" src="img/gea_reflexion.svg" alt="GEA acompaña la reflexión final del recorrido">
               <div class="closing-card-copy">
-                <h2>GEA</h2>
+                
                 <p>Nuestro recorrido comenzó observando lugares y terminó descubriendo relaciones. Aprendimos que la salud se construye en el territorio y que las formas de vivir, trabajar, alimentarse, movilizarse, cuidar, organizarse y relacionarse con la naturaleza, las instituciones y otras personas hacen parte de los procesos de salud, enfermedad y cuidado.</p>
               </div>
             </article>
             <article class="concept-card pista">
               <img class="closing-character mapetto" src="img/mapeto_solucion.svg" alt="Mapetto acompaña la reflexión final del recorrido">
               <div class="closing-card-copy">
-                <h2>MAPETTO</h2>
+                
                 <p>Reconocimos el territorio, aprendimos a comprenderlo y leerlo, e identificamos posibles espacios de encuentro entre comunidades, APS, Ciudad Bienestar–PSPIC y otros actores. Los territorios cambian, las relaciones también y, por eso, siempre tendremos algo nuevo que observar, escuchar y comprender.</p>
               </div>
             </article>
@@ -474,9 +461,6 @@ Así, la lectura del territorio se construye.
           <div class="footer-actions" style="justify-content:center">
             <button id="restartBtn" class="secondary-btn" type="button">Volver al inicio</button>
             <button id="reviewBtn" class="primary-btn" type="button">Revisar el recorrido</button>
-            <button id="stopAudioBtn" class="audio-btn" type="button">
-              <i data-lucide="volume-x"></i><span>Detener narración</span>
-            </button>
           </div>
         </article>
       </section>
@@ -577,6 +561,5 @@ Así, la lectura del territorio se construye.
   <script src="js/navegacion.js"></script>
   <script src="js/interacciones.js"></script>
   <script src="js/dimensiones.js"></script>
-  <script src="js/narracion.js"></script>
 </body>
 </html>

@@ -57,6 +57,7 @@ const fotosHotspot = {
 
 document.querySelectorAll('.hotspot').forEach(boton => {
   boton.addEventListener('click', () => {
+    boton.dataset.reviewed = 'true';
     const escena = document.querySelector('#stop1 .scene');
     const yaEstabaActivo = boton.classList.contains('selected');
 
@@ -167,6 +168,7 @@ document.querySelectorAll('[data-territory-tool]').forEach(boton => {
   boton.addEventListener('click', () => {
     const herramienta = herramientasTerritoriales[boton.dataset.territoryTool];
     if (!herramienta) return;
+    boton.dataset.reviewed = 'true';
     focoPrevioHerramienta = boton;
     document.getElementById('toolTitle').textContent = herramienta.name;
     document.getElementById('toolDefinition').textContent = herramienta.definition;
@@ -222,6 +224,7 @@ function cerrarConexion() {
 
 document.querySelectorAll('.connect-btn').forEach(boton => {
   boton.addEventListener('click', () => {
+    boton.dataset.reviewed = 'true';
     boton.classList.toggle('active');
     boton.setAttribute('aria-pressed', String(boton.classList.contains('active')));
     focoPrevioConexion = boton;

@@ -23,6 +23,74 @@ function mostrarPantalla(id) {
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
+function cantidadRevisada(selector) {
+  return document.querySelectorAll(`${selector}[data-reviewed="true"]`).length;
+}
+
+function validarRequisito(pantalla) {
+  const progresoPreguntas = window.recorrido && window.recorrido.obtenerProgresoPreguntas
+    ? window.recorrido.obtenerProgresoPreguntas()
+    : { respondidas: 0, total: 0 };
+  const requisitos = {
+    home: {
+      valido: cantidadRevisada('[data-dimension-concept]') === 5,
+      mensaje: `Antes de comenzar, revisa las cinco dimensiones del inicio. Revisadas: ${cantidadRevisada('[data-dimension-concept]')} de 5.`,
+      feedback: 'homeValidation'
+    },
+    stop1: {
+      valido: cantidadRevisada('.hotspot') === 4,
+      mensaje: `Antes de continuar, explora los cuatro lugares del territorio. Explorados: ${cantidadRevisada('.hotspot')} de 4.`,
+      feedback: 'stop1Validation'
+    },
+    stop2: {
+      valido: progresoPreguntas.total > 0 && progresoPreguntas.respondidas === progresoPreguntas.total
+        || cantidadRevisada('[data-territory-tool]') === 4,
+      mensaje: `Para continuar, responde las ${progresoPreguntas.total} preguntas de las tarjetas o revisa los cuatro modales de herramientas. Respondidas: ${progresoPreguntas.respondidas} de ${progresoPreguntas.total}; herramientas revisadas: ${cantidadRevisada('[data-territory-tool]')} de 4.`,
+      feedback: 'stop2Validation'
+    },
+    stop3: {
+      valido: cantidadRevisada('.connect-btn') === 5,
+      mensaje: `Antes de cerrar el recorrido, revisa las cinco conexiones entre actores. Revisadas: ${cantidadRevisada('.connect-btn')} de 5.`,
+      feedback: 'stop3Validation'
+    }
+  };
+  const requisito = requisitos[pantalla];
+  if (!requisito || requisito.valido) {
+    if (requisito) {
+      const feedback = document.getElementById(requisito.feedback);
+      feedback.hidden = true;
+      feedback.textContent = '';
+    }
+    return true;
+  }
+  const feedback = document.getElementById(requisito.feedback);
+  feedback.textContent = requisito.mensaje;
+  feedback.hidden = false;
+  feedback.focus();
+  return false;
+}
+
+function validarDestino(destino) {
+  const requisitosPrevios = {
+    stop1: ['home'],
+    stop2: ['home', 'stop1'],
+    stop3: ['home', 'stop1', 'stop2']
+  };
+  const requisitos = requisitosPrevios[destino] || [];
+  for (const pantalla of requisitos) {
+    if (!validarRequisito(pantalla)) {
+      mostrarPantalla(pantalla);
+      document.getElementById({
+        home: 'homeValidation',
+        stop1: 'stop1Validation',
+        stop2: 'stop2Validation'
+      }[pantalla]).focus();
+      return false;
+    }
+  }
+  return true;
+}
+
 /**
  * Desbloquea una parada, actualiza la barra de progreso y el menú.
  * @param {string} parada - 'stop1', 'stop2' o 'stop3'.
@@ -48,6 +116,7 @@ function irA(parada) {
 
 // Botón "Comenzar recorrido"
 document.getElementById('startBtn').addEventListener('click', () => {
+  if (!validarDestino('stop1')) return;
   desbloquearParada('stop1');
   mostrarPantalla('stop1');
 });
@@ -56,6 +125,7 @@ document.getElementById('startBtn').addEventListener('click', () => {
 document.querySelectorAll('.next-stop').forEach(boton => {
   boton.addEventListener('click', () => {
     const destino = boton.dataset.next;
+    if (!validarDestino(destino)) return;
     desbloquearParada(destino);
     mostrarPantalla(destino);
   });
@@ -73,11 +143,16 @@ document.querySelectorAll('.back-home').forEach(boton => {
 
 // Menú superior de paradas
 document.querySelectorAll('.route-btn').forEach(boton => {
-  boton.addEventListener('click', () => irA(boton.dataset.target));
+  boton.addEventListener('click', () => {
+    const destino = boton.dataset.target;
+    if (destino !== 'home' && paradasVisitadas.has(destino) && !validarDestino(destino)) return;
+    irA(destino);
+  });
 });
 
 // Cierre del recorrido
 document.getElementById('finishBtn').addEventListener('click', () => {
+  if (!validarRequisito('stop3')) return;
   barraProgreso.style.width = '100%';
   mostrarPantalla('finish');
 });

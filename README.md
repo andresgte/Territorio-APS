@@ -24,7 +24,6 @@ Terreno APS/
 │   ├── navegacion.js    → Paso entre pantallas, desbloqueo y barra de progreso
 │   ├── interacciones.js → Hotspots, nota desplegable, actores, conexiones, tejido
 │   ├── dimensiones.js   → Las 5 dimensiones + preguntas + resumen final
-│   └── narracion.js     → Narración por voz de GEA y Mapetto
 ├── img/                 → Imágenes locales de Mapetto y GEA
 ├── contenido/           → Documento base de referencia
 └── README.md            → Este archivo
@@ -45,6 +44,11 @@ virtuales).
 4. **Parada 3 · Articular** – Mapa de actores y ejercicio guiado de conexiones
    frente a una realidad del territorio.
 5. **Cierre** – Síntesis del recorrido y mensaje de continuidad.
+
+Para avanzar, revisa las cinco dimensiones del inicio y explora los cuatro
+lugares de la Parada 1. En la Parada 2 puedes responder las diez preguntas de
+las tarjetas o revisar los cuatro modales de herramientas; para ver el cierre,
+abre las cinco explicaciones de conexiones de la Parada 3.
 
 ## Cómo editar
 
